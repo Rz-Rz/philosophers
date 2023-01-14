@@ -6,7 +6,7 @@
 #    By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/13 18:38:45 by kdhrif            #+#    #+#              #
-#    Updated: 2023/01/13 18:42:13 by kdhrif           ###   ########.fr        #
+#    Updated: 2023/01/14 15:26:53 by kdhrif           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ ${BONUS_NAME}: $(BONUS_OBJS_DIR) $(BONUS_OBJS) ${BONUS_HEADERS}
 bonus: ${BONUS_NAME}
 
 clean:
-	make -C libft clean
 	rm -rf $(OBJS_DIR)
 	rm -rf $(BONUS_OBJS_DIR)
 
