@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/14 07:52:53 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/15 16:44:16 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,73 @@
 
 
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<pthread.h>
-#include<semaphore.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
+#include <sys/time.h>
+
+// Conversion arguments
+typedef enum
+{
+	MICROSEC,
+	MILLISEC
+} t_time_mode;
+
+// types to reduce error risk
+typedef long t_millisecs;
+typedef long t_microsecs;
+
+// time_struct
+typedef struct s_time
+{
+	t_millisecs		millisecs;
+	t_microsecs		microsecs;
+} t_time;
+
+// time
+# define MILLISECONDS_IN_A_SECOND 1000
+# define MICROSECONDS_IN_A_MILLISECOND 1000
+# define MICROSECONDS_IN_A_SECOND 1000000
+
+// msg
+# define TOOK_FORK_MSG "has taken a fork"
+# define EATING_MSG "is eating"
+# define SLEEPING_MSG "is sleeping"
+# define THINKING_MSG "is thinking"
+# define DIED_MSG "died"
+
 
 typedef struct t_philo
 {
-	int				id;
-	int				nb_philo;
-	int				nb_eat;
+	int				philo_nb;
+	pthread_mutex_t *forks;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				nb_must_eat;
-	int				*fork;
-	int				*eat;
-	int				*die;
-	int				*sleep;
-	int				*end;
-	int				*start;
-	int				*start_eat;
-	int				*start_sleep;
-	int				*start_die;
-	int				*start_end;
-	int				*start_start;
-	int				*start_start_eat;
-	int				*start_start_sleep;
-	int				*start_start_die;
-	int				*start_start_end;
-	sem_t			*forks;
-	sem_t			*print;
-	sem_t			*death;
-	sem_t			*end_eat;
+	int				nb_of_time_each_philo_must_eat;
+	int				*nb_of_time_each_philo_eat;
 }					t_philo;
 
 
 
-int	ft_error(char *str);
+// init_philo.c
+int	init_philo(t_philo *philo, int ac, char **av);
 
-int	ft_init_philo(t_philo *philo, int ac, char **av);
+// mutex.c
+int	init_mutex(t_philo *philo);
+
+// generic_err.c
+int generic_err(char *str);
+
+// ft_atoi.c
+int	ft_atoi(const char *nptr);
+
+// time.c
+void	mod_sleep(long time_to_sleep, t_time_mode mode);
+long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
+void	now(t_time *time);
+void	get_time(t_time *time);
 
 #endif
