@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/15 16:44:16 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/16 17:37:55 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ typedef enum
 typedef long t_millisecs;
 typedef long t_microsecs;
 
-// time_struct
-typedef struct s_time
-{
-	t_millisecs		millisecs;
-	t_microsecs		microsecs;
-} t_time;
 
 // time
 # define MILLISECONDS_IN_A_SECOND 1000
@@ -53,24 +47,46 @@ typedef struct s_time
 # define DIED_MSG "died"
 
 
-typedef struct t_philo
+// time_struct
+typedef struct s_time
+{
+	t_millisecs		millisecs;
+	t_microsecs		microsecs;
+} t_time;
+
+// env
+typedef struct s_rules
 {
 	int				philo_nb;
 	pthread_mutex_t *forks;
+	pthread_mutex_t	*print;
+	pthread_mutex_t	*dead;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	pthread_t		*philo_id;
+	t_time			start_time;
 	int				nb_of_time_each_philo_must_eat;
 	int				*nb_of_time_each_philo_eat;
+}					t_rules;
+
+// individual philosopher
+typedef struct s_philo
+{
+	pthread_t		id;
+	t_rules			*rules;
+	t_time			last_meal;
+	int				nb_of_time_eat;
+	int				check_vitals;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 }					t_philo;
 
-
-
 // init_philo.c
-int	init_philo(t_philo *philo, int ac, char **av);
+int	init_philo(t_rules *rules, int ac, char **av);
 
 // mutex.c
-int	init_mutex(t_philo *philo);
+int	init_mutex(t_rules *rules);
 
 // generic_err.c
 int generic_err(char *str);

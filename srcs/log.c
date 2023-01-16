@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
+/*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 17:34:40 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/16 18:05:29 by kdhrif           ###   ########.fr       */
+/*   Created: 2023/01/16 13:54:32 by kdhrif            #+#    #+#             */
+/*   Updated: 2023/01/16 17:32:39 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int init_threads(t_rules *rules)
+void	log_msg(t_rules *rules, t_philo *philo, char *msg)
 {
-	int i;
+	t_time	current_time;
+	long	elapsed;
 
-	i = 0;
-	while (i < rules->philo_nb)
-	{
-		if (pthread_create(&rules->threads[i], NULL, &routine, &rules->philos[i]))
-			return (-1);
-		i++;
-	}
-	return (0);
+	now(&current_time);
+	elapsed = elapsed_time(&rules->start_time, &current_time, MILLISEC);
+	/* pthread_mutex_lock(rules->print); */
+	printf("%ld %d %s\n", elapsed, philo->id, msg);
+	/* pthread_mutex_unlock(rules->print); */
 }
