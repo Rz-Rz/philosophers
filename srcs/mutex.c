@@ -6,13 +6,13 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:36:46 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/17 11:54:20 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:50:07 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	init_mutex(t_rules *rules)
+bool	init_mutex(t_rules *rules)
 {
 	int	i;
 
@@ -20,26 +20,65 @@ int	init_mutex(t_rules *rules)
 	while (i < rules->philo_nb)
 	{
 		if (pthread_mutex_init(&rules->forks[i], NULL))
-			return (-1);
+			return (false);
 		i++;
 	}
 	if (pthread_mutex_init(rules->print, NULL))
-		return (-1);
+		return (false);
 	if (pthread_mutex_init(rules->dead, NULL))
-		return (-1);
-	return (0);
+		return (false);
+	return (true);
 }
 
-void	init_mutex(pthread_mutex_t mutex)
+bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options)
 {
 	int result;
 
-	result = pthread_mutex_init(&mutex, NULL);
-	if (result < 0)
+	if (options == CREATE)
 	{
-		generic_err("mutex init failed");
-		return (EXIT_FAILURE);
+		result = pthread_mutex_init(mutex, NULL);
+		if (result < 0)
+		{
+			generic_err("mutex init failed");
+			return (false);
+		}
+		return (true);
 	}
+	else if (options == DESTROY)
+	{
+		result = pthread_mutex_destroy(mutex);
+		if (result < 0)
+		{
+			generic_err("mutex destroy failed");
+			return (false);
+		}
+		return (true);
+	}
+	return (false);
+}
+bool	mutex_ul(pthread_mutex_t *mutex, t_mutex_action options)
+{
+	int result;
 
-
+	if (options == LOCK)
+	{
+		result = pthread_mutex_lock(mutex);
+		if (result < 0)
+		{
+			generic_err("mutex lock failed");
+			return (false);
+		}
+		return (true);
+	}
+	else if (options == UNLOCK)
+	{
+		result = pthread_mutex_unlock(mutex);
+		if (result < 0)
+		{
+			generic_err("mutex unlock failed");
+			return (false);
+		}
+		return (true);
+	}
+	return (false);
 }

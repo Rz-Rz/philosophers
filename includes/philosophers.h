@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/16 17:37:55 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:55:29 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <semaphore.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <limits.h>
+#include <stdbool.h>
 
 // Conversion arguments
 typedef enum
@@ -28,6 +30,20 @@ typedef enum
 	MICROSEC,
 	MILLISEC
 } t_time_mode;
+
+typedef enum
+{
+	CREATE,
+	DESTROY,
+	UNLOCK,
+	LOCK
+} t_mutex_action;
+
+typedef enum 
+{
+	INIT,
+	JOIN
+} t_thread_action;
 
 // types to reduce error risk
 typedef long t_millisecs;
@@ -58,6 +74,8 @@ typedef struct s_time
 typedef struct s_rules
 {
 	int				philo_nb;
+	char			**argv;
+	int				argc;
 	pthread_mutex_t *forks;
 	pthread_mutex_t	*print;
 	pthread_mutex_t	*dead;
@@ -83,16 +101,27 @@ typedef struct s_philo
 }					t_philo;
 
 // init_philo.c
-int	init_philo(t_rules *rules, int ac, char **av);
+bool	init_philo(t_rules *rules, int ac, char **av);
 
 // mutex.c
-int	init_mutex(t_rules *rules);
+bool	init_mutex(t_rules *rules);
 
 // generic_err.c
-int generic_err(char *str);
+int		generic_err(char *str);
+
+// philo.c
+bool init_all(t_rules *rules, int ac, char **av);
+
+//singleton.c
+t_rules	*r(void);
+
+//parsing.c
+bool	is_valid_int(int nb);
+int		parse(char *str);
+bool	assign(void *dest, int src);
 
 // ft_atoi.c
-int	ft_atoi(const char *nptr);
+int		ft_atoi(const char *nptr);
 
 // time.c
 void	mod_sleep(long time_to_sleep, t_time_mode mode);
