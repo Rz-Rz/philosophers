@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 11:07:47 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/15 16:45:06 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/17 11:47:08 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,9 @@ int	init_philo(t_philo *philo, int ac, char **av)
 		|| philo->nb_of_time_each_philo_must_eat == 0)
 		return (-1);
 	return (0);
+}
+
+void	init_rules()
+{
+
 }
