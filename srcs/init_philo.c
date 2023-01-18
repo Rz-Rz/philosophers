@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 11:07:47 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/17 17:24:53 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/18 12:04:03 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 /* 	return (0); */
 /* } */
 
-bool	init_philo(t_rules *rules, int ac, char **av)
+bool	init_rules(t_rules *rules, int ac, char **av)
 {
 	if (assign(&rules->philo_nb, parse(av[1])) == false)
 		return (false);
@@ -42,5 +42,23 @@ bool	init_philo(t_rules *rules, int ac, char **av)
 	if (av[5])
 		if (assign(&rules->nb_of_time_each_philo_must_eat, parse(av[5])) == false)
 			return (false);
+	return (true);
+}
+
+bool	init_philo(t_philo *philo, t_rules *rules)
+{
+	int i;
+
+	i = 0;
+	while (i < rules->philo_nb)
+	{
+		philo[i].id = i + 1;
+		philo[i].rules = rules;
+		philo[i].last_meal = 0;
+		philo[i].nb_of_meal = 0;
+		philo[i].is_eating = false;
+		philo[i].is_dead = false;
+		i++;
+	}
 	return (true);
 }

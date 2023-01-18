@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/17 17:55:29 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/18 12:00:18 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum
 	LOCK
 } t_mutex_action;
 
-typedef enum 
+typedef enum
 {
 	INIT,
 	JOIN
@@ -85,7 +85,6 @@ typedef struct s_rules
 	pthread_t		*philo_id;
 	t_time			start_time;
 	int				nb_of_time_each_philo_must_eat;
-	int				*nb_of_time_each_philo_eat;
 }					t_rules;
 
 // individual philosopher
@@ -101,7 +100,7 @@ typedef struct s_philo
 }					t_philo;
 
 // init_philo.c
-bool	init_philo(t_rules *rules, int ac, char **av);
+bool	init_rules(t_rules *rules, int ac, char **av);
 
 // mutex.c
 bool	init_mutex(t_rules *rules);
