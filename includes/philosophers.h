@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/18 12:00:18 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/18 19:06:38 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,10 @@ typedef struct s_time
 	t_microsecs		microsecs;
 } t_time;
 
-// env
-typedef struct s_rules
-{
-	int				philo_nb;
-	char			**argv;
-	int				argc;
-	pthread_mutex_t *forks;
-	pthread_mutex_t	*print;
-	pthread_mutex_t	*dead;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	pthread_t		*philo_id;
-	t_time			start_time;
-	int				nb_of_time_each_philo_must_eat;
-}					t_rules;
-
 // individual philosopher
 typedef struct s_philo
 {
 	pthread_t		id;
-	t_rules			*rules;
 	t_time			last_meal;
 	int				nb_of_time_eat;
 	int				check_vitals;
@@ -99,11 +81,35 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 }					t_philo;
 
+// env
+typedef struct s_rules
+{
+	int				philo_nb;
+	char			**argv;
+	int				argc;
+	pthread_mutex_t *forks;
+	pthread_mutex_t	print;
+	pthread_mutex_t	death;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	pthread_t		*philo_id;
+	t_time			start_time;
+	int				nb_of_time_each_philo_must_eat;
+	t_philo			*philo;
+}					t_rules;
+
+
 // init_philo.c
 bool	init_rules(t_rules *rules, int ac, char **av);
 
+// forks.c
+void	allocate_forks(void);
+
 // mutex.c
 bool	init_mutex(t_rules *rules);
+bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options);
+bool	mutex_ul(pthread_mutex_t *mutex, t_mutex_action options);
 
 // generic_err.c
 int		generic_err(char *str);
@@ -127,5 +133,10 @@ void	mod_sleep(long time_to_sleep, t_time_mode mode);
 long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
 void	now(t_time *time);
 void	get_time(t_time *time);
+
+// memory.c
+void	*ft_memset(void *s, int c, size_t n);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif

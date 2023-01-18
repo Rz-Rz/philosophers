@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:36:46 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/17 17:50:07 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/18 19:08:56 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ bool	init_mutex(t_rules *rules)
 	int	i;
 
 	i = 0;
-	while (i < rules->philo_nb)
+	allocate_forks();
+	while (i < r()->philo_nb)
 	{
-		if (pthread_mutex_init(&rules->forks[i], NULL))
+		if (mutex_cd(&r()->forks[i], CREATE) == false)
 			return (false);
-		i++;
 	}
-	if (pthread_mutex_init(rules->print, NULL))
+	if (mutex_cd(&r()->print, CREATE) == false)
 		return (false);
-	if (pthread_mutex_init(rules->dead, NULL))
+	if (mutex_cd(&r()->death, CREATE) == false)
 		return (false);
 	return (true);
 }

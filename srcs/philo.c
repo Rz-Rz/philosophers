@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/18 12:00:46 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/18 17:24:41 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,3 @@ bool init_all(t_rules *rules, int ac, char **av)
 	if (init_thread(rules) == -1)
 		return (generic_err("Thread init failed !"));
 }
-
-
-
-
