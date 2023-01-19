@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/18 19:06:38 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/19 11:44:30 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ typedef struct s_philo
 {
 	pthread_t		id;
 	t_time			last_meal;
-	int				nb_of_time_eat;
+	int				nb_of_meals;
 	int				check_vitals;
+	long			ttd;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }					t_philo;
@@ -110,6 +111,9 @@ void	allocate_forks(void);
 bool	init_mutex(t_rules *rules);
 bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options);
 bool	mutex_ul(pthread_mutex_t *mutex, t_mutex_action options);
+
+// philosophers.c
+void	allocate_philosophers(void);
 
 // generic_err.c
 int		generic_err(char *str);
