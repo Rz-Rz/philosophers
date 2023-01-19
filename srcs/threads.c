@@ -6,34 +6,34 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:34:40 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/17 17:58:07 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/19 18:50:36 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-bool init_threads(t_rules *rules)
+bool	init_threads(void)
 {
+	t_philo	*philo;
 	int i;
 
 	i = 0;
-	while (i < rules->philo_nb)
+	while (i < r()->philo_nb)
 	{
-		if (threads_cd(&rules->threads[i], routine, ))
-		if (pthread_create(&rules->threads[i], NULL, &routine, &rules->philos[i]))
-			return (-1);
+		if (threads_cd(r()->philo[i].id, routine, r()->philo[i], INIT) == false)
+			return (false);
 		i++;
 	}
-	return (0);
+	return (true);
 }
 
-bool	threads_cd(pthread_t *thread, void *(*routine)(void *),  t_thread_action options)
+bool	threads_cd(pthread_t *thread, void *(*routine)(void *), void* arg, t_thread_action options)
 {
 	int result;
 
 	if (options == INIT)
 	{
-		result = pthread_create(thread, NULL, (*routine), NULL);
+		result = pthread_create(thread, NULL, (*routine), arg);
 		if (result < 0)
 		{
 			generic_err("thread create failed");

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/19 11:44:30 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/19 18:49:53 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ bool	init_rules(t_rules *rules, int ac, char **av);
 
 // forks.c
 void	allocate_forks(void);
+
+// threads.c
+bool	threads_cd(pthread_t *thread, void *(*routine)(void *), void* arg, t_thread_action options);
 
 // mutex.c
 bool	init_mutex(t_rules *rules);
