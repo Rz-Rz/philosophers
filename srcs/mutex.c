@@ -6,13 +6,13 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:36:46 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/18 19:08:56 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/20 13:12:54 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-bool	init_mutex(t_rules *rules)
+bool	init_mutex(void)
 {
 	int	i;
 

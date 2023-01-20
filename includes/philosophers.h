@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/19 18:49:53 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/20 13:21:47 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_time
 typedef struct s_philo
 {
 	pthread_t		id;
+	int				index;
 	t_time			last_meal;
 	int				nb_of_meals;
 	int				check_vitals;
@@ -100,18 +101,25 @@ typedef struct s_rules
 	t_philo			*philo;
 }					t_rules;
 
+//life.c
+void	*routine(void *arg);
+
+// log.c
+void	log_msg(t_philo *philo, char *msg);
 
 // init_philo.c
-bool	init_rules(t_rules *rules, int ac, char **av);
+bool	init_rules(char **av);
+bool	init_philo(void);
 
 // forks.c
 void	allocate_forks(void);
 
 // threads.c
+bool	init_threads(void);
 bool	threads_cd(pthread_t *thread, void *(*routine)(void *), void* arg, t_thread_action options);
 
 // mutex.c
-bool	init_mutex(t_rules *rules);
+bool	init_mutex(void);
 bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options);
 bool	mutex_ul(pthread_mutex_t *mutex, t_mutex_action options);
 
@@ -122,7 +130,7 @@ void	allocate_philosophers(void);
 int		generic_err(char *str);
 
 // philo.c
-bool init_all(t_rules *rules, int ac, char **av);
+bool	init_all(char **av);
 
 //singleton.c
 t_rules	*r(void);
