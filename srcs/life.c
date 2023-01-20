@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 13:07:22 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/20 16:17:03 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static bool check_death(t_philo *philo)
 	if (elapsed > r()->time_to_die)
 	{
 		log_msg(philo, "died");
+		philo->check_vitals = false;
 		return (true);
 	}
 	return (false);
@@ -89,4 +90,3 @@ void	*routine(void *arg)
 	}
 	return (NULL);
 }
-
