@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 16:20:33 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/20 18:04:00 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <sys/time.h>
 #include <limits.h>
 #include <stdbool.h>
+#include <errno.h>
 
 // Conversion arguments
 typedef enum
@@ -130,7 +131,7 @@ bool	mutex_ul(pthread_mutex_t *mutex, t_mutex_action options);
 void	allocate_philosophers(void);
 
 // generic_err.c
-int		generic_err(char *str);
+bool	generic_err(char *str);
 
 // philo.c
 bool	init_all(char **av);
@@ -157,4 +158,10 @@ void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 
+// debugging.c
+void	debug_init_rules(void);
+void	debug_init_mutex(void);
+void	debug_init_philo(void);
+void	debug_life(t_philo *philo);
+void	debug_init_thread(void);
 #endif

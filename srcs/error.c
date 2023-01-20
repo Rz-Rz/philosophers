@@ -6,14 +6,14 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 11:11:36 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/15 16:47:25 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/20 16:49:01 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	generic_err(char *str)
+bool	generic_err(char *str)
 {
 	printf("Error: %s\n", str);
-	return (-1);
+	return (false);
 }

@@ -6,18 +6,38 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 16:17:03 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/20 19:18:35 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
+static bool check_death(t_philo *philo)
+{
+	t_time	current_time;
+	long	elapsed;
+
+	now(&current_time);
+	elapsed = elapsed_time(&philo->last_meal, &current_time, MILLISEC);
+	if (elapsed > r()->time_to_die)
+	{
+		log_msg(philo, "died");
+		philo->check_vitals = false;
+		return (true);
+	}
+	return (false);
+}
+
 static void	eat(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
+		if (check_death(philo))
+			return ;
 		pthread_mutex_lock(philo->left_fork);
 		log_msg(philo, "has taken a fork");
+		if (check_death(philo))
+			return ;
 		pthread_mutex_lock(philo->right_fork);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
@@ -28,6 +48,8 @@ static void	eat(t_philo *philo)
 	}
 	else
 	{
+		if (check_death(philo))
+			return ;
 		pthread_mutex_lock(philo->right_fork);
 		log_msg(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
@@ -51,27 +73,12 @@ static void	think(t_philo *philo)
 	log_msg(philo, "is thinking");
 }
 
-static bool check_death(t_philo *philo)
-{
-	t_time	current_time;
-	long	elapsed;
-
-	now(&current_time);
-	elapsed = elapsed_time(&philo->last_meal, &current_time, MILLISEC);
-	if (elapsed > r()->time_to_die)
-	{
-		log_msg(philo, "died");
-		philo->check_vitals = false;
-		return (true);
-	}
-	return (false);
-}
-
 void	*routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->last_meal = r()->start_time;
 	philo->nb_of_meals = 0;
 	while (true)
 	{
