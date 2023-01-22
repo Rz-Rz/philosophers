@@ -6,14 +6,13 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:24:25 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 18:49:55 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/22 16:15:14 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-#include <pthread.h>
 
-void debug_init_rules(void)
+void	debug_init_rules(void)
 {
 	printf("philo_nb: %d\n", r()->philo_nb);
 	printf("time_to_die: %d\n", r()->time_to_die);
@@ -23,7 +22,7 @@ void debug_init_rules(void)
 		printf("nb_of_time_each_philo_must_eat: %d\n", r()->nb_of_time_each_philo_must_eat);
 }
 
-void debug_init_mutex(void)
+void	debug_init_mutex(void)
 {
 	int	i;
 
@@ -40,9 +39,9 @@ void debug_init_mutex(void)
 	printf("print: %d\n", pthread_mutex_unlock(&r()->death));
 }
 
-void debug_init_philo(void)
+void	debug_init_philo(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < r()->philo_nb)
@@ -63,8 +62,7 @@ void debug_init_philo(void)
 	printf("(bool)all_ate %d\n", r()->all_ate);
 }
 
-
-void debug_init_thread(void)
+void	debug_init_thread(void)
 {
 	int	i;
 
@@ -79,10 +77,8 @@ void debug_init_thread(void)
 	}
 }
 
-void debug_life(t_philo *philo)
+void	debug_life(t_philo *philo)
 {
 	printf("philo %d is alive\n", philo->index);
 	printf("nb_of_meals %d \n", philo->nb_of_meals);
-	/* pthread_exit(NULL); */
 }
-

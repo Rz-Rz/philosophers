@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 18:07:03 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/22 19:15:03 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-bool init_all(char **av)
+bool	init_all(char **av)
 {
 	if (init_rules(av) == false)
 		return (generic_err("Wrong arguments !"));
@@ -47,7 +47,8 @@ void	death_checker(void)
 		j = 0;
 		while (i < r()->philo_nb)
 		{
-			if (r()->philo[i].nb_of_meals == r()->nb_of_time_each_philo_must_eat)
+			if (r()->philo[i].nb_of_meals \
+					== r()->nb_of_time_each_philo_must_eat)
 				j++;
 			i++;
 		}
@@ -81,4 +82,6 @@ void	finish(void)
 	}
 	pthread_mutex_destroy(&r()->print);
 	pthread_mutex_destroy(&r()->death);
+	free(r()->forks);
+	free(r()->philo);
 }

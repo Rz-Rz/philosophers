@@ -6,14 +6,12 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 18:04:00 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/22 21:36:50 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,6 +22,7 @@
 #include <limits.h>
 #include <stdbool.h>
 #include <errno.h>
+#include <stdatomic.h>
 
 // Conversion arguments
 typedef enum
@@ -47,14 +46,16 @@ typedef enum
 } t_thread_action;
 
 // types to reduce error risk
-typedef long t_millisecs;
-typedef long t_microsecs;
+typedef _Atomic long t_millisecs;
+typedef _Atomic long t_microsecs;
 
 
 // time
 # define MILLISECONDS_IN_A_SECOND 1000
 # define MICROSECONDS_IN_A_MILLISECOND 1000
 # define MICROSECONDS_IN_A_SECOND 1000000
+
+# define CLOCK_TICK 1500
 
 // msg
 # define TOOK_FORK_MSG "has taken a fork"
@@ -77,7 +78,7 @@ typedef struct s_philo
 	pthread_t		id;
 	int				index;
 	t_time			last_meal;
-	int				nb_of_meals;
+	_Atomic int		nb_of_meals;
 	bool			check_vitals;
 	long			ttd;
 	pthread_mutex_t	*left_fork;
@@ -105,6 +106,7 @@ typedef struct s_rules
 
 //life.c
 void	*routine(void *arg);
+bool	check_death(t_philo *philo);
 
 // log.c
 void	log_msg(t_philo *philo, char *msg);
@@ -148,7 +150,7 @@ bool	assign(void *dest, int src);
 int		ft_atoi(const char *nptr);
 
 // time.c
-void	mod_sleep(long time_to_sleep, t_time_mode mode);
+void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo);
 long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
 void	now(t_time *time);
 void	get_time(t_time *time);
