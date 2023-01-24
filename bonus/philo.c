@@ -5,90 +5,81 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 18:44:19 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/14 15:23:20 by kdhrif           ###   ########.fr       */
+/*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
+/*   Updated: 2023/01/24 17:23:22 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers_bonus.h"
+#include "../includes/philosophers.h"
 
-sem_t room;
-sem_t forks[5];
-
-int main()
+int	main(int ac, char **av)
 {
-	int i;
-	t_philo philo;
-	int a[5];
-	/* pthread_t	philo[5]; */
-
-	sem_init(&room, 0, 4);
-	i = -1;
-	while (++i < 5)
-		sem_init(&forks[i], 0, 1);
-	i = -1;
-	/* while (++i < 5) */
-	/* { */
-	/* 	a[i] = i; */
-	/* 	pthread_create(&philo[i], NULL, philo_life, (void *)&a[i]); */
-	/* } */
-	while (++i < 5)
-	{
-		fork();
-
-	}
-
-
-	i = -1;
-	while (++i < 5)
-		pthread_join(philo[i], NULL);
+	if (ac < 5 || ac > 6)
+		return (generic_err("Wrong number of arguments !"));
+	if (init_all(av) == false)
+		return (1);
+	return (0);
 }
 
-/* void eat(t_philo philo) */
-/* { */
-/* 	sem_wait(&room); */
-/* 	sem_wait(&forks[philo->i]); */
-/* 	sem_wait(&forks[(philo->i + 1) % 5]); */
-/* 	printf("philo %d is eating with forks %d and %d \n", i, i, (i + 1) % 5); */
-/* 	sleep(tteat); */
-/* 	sem_post(&forks[i]); */
-/* 	sem_post(&forks[(i + 1) % 5]); */
-/* 	sem_post(&room); */
-/* } */
-
-/* void sleep(int i) */
-/* { */
-/* 	printf("philo %d is sleeping \n", i); */
-/* 	sleep(ttsleep); */
-/* } */
-
-/* void think(int i) */
-/* { */
-/* 	printf("philo %d is thinking \n", i); */
-/* 	sleep(ttthink); */
-/* } */
-
-void *philo_life(void *arg)
+bool	init_all(char **av)
 {
-	int i;
+	if (init_rules(av) == false)
+		return (generic_err("Wrong arguments !"));
+	if (init_semaphore() == false)
+		return (generic_err("Mutex init failed !"));
+	if (init_philo() == false)
+		return (generic_err("Philo init failed !"));
+	if (init_threads() == false)
+		return (generic_err("Thread init failed !"));
+	death_checker();
+	finish();
+	return (true);
+}
 
-	i = *(int *)arg;
-	sem_wait(&forks[i]);
-	sem_wait(&forks[(i + 1) % 5]);
-	printf("Philosopher %d has taken the fork %d and the fork %d\n", i, i, (i + 1) % 5);
-	printf("Philosopher %d is eating\n", i);
-	sleep(1);
-	sem_post(&forks[i]);
-	sem_post(&forks[i + 1]);
-	printf("Philosopher %d is sleeping\n", i);
-	sleep(1);
-	printf("Philosopher %d is thinking\n", i);
-	sleep(1);
-	/* while (1) */
-	/* { */
-	/* 	eat(i); */
-	/* 	sleep(i); */
-	/* 	think(i); */
-	/* } */
-	return (NULL);
+void	death_checker(void)
+{
+	int	i;
+	int	j;
+
+	while (!r()->all_ate)
+	{
+		i = 0;
+		j = 0;
+		mutex_ul(&r()->meals, LOCK);
+		while (i < r()->philo_nb)
+		{
+			if (r()->philo[i].nb_of_meals \
+					== r()->nb_of_time_each_philo_must_eat)
+				j++;
+			i++;
+		}
+		mutex_ul(&r()->meals, UNLOCK);
+		if (j == r()->philo_nb)
+			r()->all_ate = true;
+		if (did_someone_die())
+			break ;
+	}
+}
+
+void	finish(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < r()->philo_nb)
+	{
+		pthread_join(r()->philo[i].id, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < r()->philo_nb)
+	{
+		pthread_mutex_destroy(&r()->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&r()->print);
+	pthread_mutex_destroy(&r()->death);
+	pthread_mutex_destroy(&r()->meals);
+	free(r()->forks);
+	free(r()->philo);
 }

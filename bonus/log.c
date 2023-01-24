@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 11:11:36 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 16:49:01 by kdhrif           ###   ########.fr       */
+/*   Created: 2023/01/16 13:54:32 by kdhrif            #+#    #+#             */
+/*   Updated: 2023/01/24 14:43:44 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-bool	generic_err(char *str)
+void	log_msg(t_philo *philo, char *msg)
 {
-	printf("Error: %s\n", str);
-	return (false);
+	t_time			current_time;
+	long			elapsed;
+
+	now(&current_time);
+	elapsed = elapsed_time(&r()->start_time, &current_time, MILLISEC);
+	pthread_mutex_lock(&r()->print);
+	if (did_someone_die() == false)
+		printf("%ld %d %s\n", elapsed, philo->index, msg);
+	pthread_mutex_unlock(&r()->print);
 }
