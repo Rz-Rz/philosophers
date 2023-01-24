@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/22 18:29:41 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/23 20:01:24 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	now(t_time *time)
 
 long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)
 {
-	_Atomic long	elapsed;
+	long	elapsed;
 
 	if (mode == MILLISEC)
 	{
@@ -50,30 +50,21 @@ long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)
 
 void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo)
 {
-	_Atomic long	divided;
+	t_time	current_time;
+	t_time	start;
 
+	now(&start);
 	if (mode == MILLISEC)
 	{
-		divided = time_to_sleep * MICROSECONDS_IN_A_MILLISECOND;
-		while (divided > CLOCK_TICK)
+		while (true)
 		{
 			if (usleep(CLOCK_TICK) != 0)
 				generic_err("usleep");
-			divided -= CLOCK_TICK;
 			if (check_death(philo) == true)
 				return ;
-		}
-	}
-	else if (mode == MICROSEC)
-	{
-		divided = time_to_sleep;
-		while (divided > CLOCK_TICK)
-		{
-			if (usleep(CLOCK_TICK) != 0)
-				generic_err("usleep");
-			divided -= CLOCK_TICK;
-			if (check_death(philo) == true)
-				return ;
+			now(&current_time);
+			if ((current_time.millisecs - start.millisecs) >= time_to_sleep)
+				break;
 		}
 	}
 }

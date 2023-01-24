@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log.c                                              :+:      :+:    :+:   */
+/*   glossy_if.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 13:54:32 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 14:43:44 by kdhrif           ###   ########.fr       */
+/*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
+/*   Updated: 2023/01/24 14:37:51 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-void	log_msg(t_philo *philo, char *msg)
+bool	did_someone_die(void)
 {
-	t_time			current_time;
-	long			elapsed;
+	bool	someone_died;
 
-	now(&current_time);
-	elapsed = elapsed_time(&r()->start_time, &current_time, MILLISEC);
-	pthread_mutex_lock(&r()->print);
-	if (did_someone_die() == false)
-		printf("%ld %d %s\n", elapsed, philo->index, msg);
-	pthread_mutex_unlock(&r()->print);
+	pthread_mutex_lock(&r()->death);
+	if (r()->someone_died == true)
+		someone_died = true;
+	else
+		someone_died = false;
+	pthread_mutex_unlock(&r()->death);
+	return (someone_died);
 }

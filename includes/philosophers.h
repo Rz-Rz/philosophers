@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/22 21:36:50 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/24 14:37:29 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef enum
 } t_thread_action;
 
 // types to reduce error risk
-typedef _Atomic long t_millisecs;
-typedef _Atomic long t_microsecs;
+typedef long t_millisecs;
+typedef long t_microsecs;
 
 
 // time
@@ -78,7 +78,7 @@ typedef struct s_philo
 	pthread_t		id;
 	int				index;
 	t_time			last_meal;
-	_Atomic int		nb_of_meals;
+	int				nb_of_meals;
 	bool			check_vitals;
 	long			ttd;
 	pthread_mutex_t	*left_fork;
@@ -95,6 +95,7 @@ typedef struct s_rules
 	pthread_mutex_t *forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
+	pthread_mutex_t	meals;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -102,6 +103,7 @@ typedef struct s_rules
 	t_time			start_time;
 	int				nb_of_time_each_philo_must_eat;
 	t_philo			*philo;
+	bool			someone_died;
 }					t_rules;
 
 //life.c
@@ -159,6 +161,9 @@ void	get_time(t_time *time);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+
+// glossy_if.c
+bool	did_someone_die(void);
 
 // debugging.c
 void	debug_init_rules(void);

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 11:07:47 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 16:17:32 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/23 18:52:25 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ bool	init_philo(void)
 	}
 	get_time(&r()->start_time);
 	r()->all_ate = false;
+	r()->someone_died = false;
 	return (true);
 }

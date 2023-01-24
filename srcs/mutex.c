@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:36:46 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 17:22:38 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/23 20:04:53 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ bool	init_mutex(void)
 	if (mutex_cd(&r()->print, CREATE) == false)
 		return (false);
 	if (mutex_cd(&r()->death, CREATE) == false)
+		return (false);
+	if (mutex_cd(&r()->meals, CREATE) == false)
 		return (false);
 	return (true);
 }
