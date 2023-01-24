@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:36:46 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/23 20:04:53 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/24 15:58:43 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	init_mutex(void)
 
 bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options)
 {
-	int result;
+	int	result;
 
 	if (options == CREATE)
 	{
@@ -59,9 +59,10 @@ bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options)
 	}
 	return (false);
 }
+
 bool	mutex_ul(pthread_mutex_t *mutex, t_mutex_action options)
 {
-	int result;
+	int	result;
 
 	if (options == LOCK)
 	{

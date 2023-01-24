@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/23 20:01:24 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/24 15:53:37 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo)
 				return ;
 			now(&current_time);
 			if ((current_time.millisecs - start.millisecs) >= time_to_sleep)
-				break;
+				break ;
 		}
 	}
 }

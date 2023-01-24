@@ -6,10 +6,9 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 14:37:29 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/24 16:38:33 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -25,30 +24,29 @@
 #include <stdatomic.h>
 
 // Conversion arguments
-typedef enum
+typedef enum t
 {
 	MICROSEC,
 	MILLISEC
-} t_time_mode;
+}	t_time_mode;
 
-typedef enum
+typedef enum e
 {
 	CREATE,
 	DESTROY,
 	UNLOCK,
 	LOCK
-} t_mutex_action;
+}	t_mutex_action;
 
-typedef enum
+typedef enum b
 {
 	INIT,
 	JOIN
-} t_thread_action;
+}	t_thread_action;
 
 // types to reduce error risk
-typedef long t_millisecs;
-typedef long t_microsecs;
-
+typedef long	t_millisecs;
+typedef long	t_microsecs;
 
 // time
 # define MILLISECONDS_IN_A_SECOND 1000
@@ -64,13 +62,12 @@ typedef long t_microsecs;
 # define THINKING_MSG "is thinking"
 # define DIED_MSG "died"
 
-
 // time_struct
 typedef struct s_time
 {
 	t_millisecs		millisecs;
 	t_microsecs		microsecs;
-} t_time;
+}	t_time;
 
 // individual philosopher
 typedef struct s_philo
@@ -92,7 +89,7 @@ typedef struct s_rules
 	char			**argv;
 	int				argc;
 	bool			all_ate;
-	pthread_mutex_t *forks;
+	pthread_mutex_t	*forks;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
 	pthread_mutex_t	meals;
@@ -124,7 +121,8 @@ void	allocate_forks(void);
 
 // threads.c
 bool	init_threads(void);
-bool	threads_cd(pthread_t *thread, void *(*routine)(void *), void* arg, t_thread_action options);
+bool	threads_cd(pthread_t *thread, void *(*routine)(void *),
+			void *arg, t_thread_action options);
 
 // mutex.c
 bool	init_mutex(void);
@@ -164,6 +162,9 @@ void	*ft_calloc(size_t nmemb, size_t size);
 
 // glossy_if.c
 bool	did_someone_die(void);
+
+// handle_only_one.c
+bool	one_philo(t_philo *philo);
 
 // debugging.c
 void	debug_init_rules(void);

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 15:48:47 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/24 16:38:41 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,11 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->last_meal = r()->start_time;
+	if (r()->philo_nb == 1 && one_philo(philo))
+		return (NULL);
 	while (philo->check_vitals && !did_someone_die())
 	{
-		if (check_death(philo))
-			break ;
 		eat(philo);
-		if (check_death(philo))
-			break ;
 		pthread_mutex_lock(&r()->meals);
 		philo->nb_of_meals++;
 		if (r()->nb_of_time_each_philo_must_eat \
@@ -97,8 +95,6 @@ void	*routine(void *arg)
 		}
 		pthread_mutex_unlock(&r()->meals);
 		sleeep(philo);
-		if (check_death(philo))
-			break ;
 		think(philo);
 		if (check_death(philo))
 			break ;

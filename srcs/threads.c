@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:34:40 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 16:50:18 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/24 15:57:39 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 bool	init_threads(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < r()->philo_nb)
 	{
-		if (threads_cd(&r()->philo[i].id, routine, &r()->philo[i], INIT) == false)
+		if (threads_cd(&r()->philo[i].id,
+				routine, &r()->philo[i], INIT) == false)
 			return (false);
 		i++;
 	}
 	return (true);
 }
 
-bool	threads_cd(pthread_t *thread, void *(*routine)(void *), void* arg, t_thread_action options)
+bool	threads_cd(pthread_t *thread, void *(*routine)(void *),
+		void *arg, t_thread_action options)
 {
-	int result;
+	int	result;
 
 	if (options == INIT)
 	{
