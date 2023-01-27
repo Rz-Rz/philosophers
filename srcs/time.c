@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 15:53:37 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/27 15:53:44 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,17 @@ void	get_time(t_time *time)
 
 void	now(t_time *time)
 {
+	pthread_mutex_lock(&r()->time);
 	get_time(time);
+	pthread_mutex_unlock(&r()->time);
+}
+
+long	get_time_ms(void)
+{
+	t_time	time;
+
+	get_time(&time);
+	return (time.millisecs);
 }
 
 long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)

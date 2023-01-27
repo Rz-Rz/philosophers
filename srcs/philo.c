@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 14:41:54 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/27 17:57:20 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ void	death_checker(void)
 		mutex_ul(&r()->meals, UNLOCK);
 		if (j == r()->philo_nb)
 			r()->all_ate = true;
+		i = -1;
+		/* while (++i < r()->philo_nb) */
+		/* { */
+		/* 	if (did_philo_n_die(i)) */
+		/* 	{ */
+		/* 		log_msg(&r()->philo[i], "died"); */
+		/* 		pthread_mutex_lock(&r()->death); */
+		/* 		r()->someone_died = true; */
+		/* 		pthread_mutex_unlock(&r()->death); */
+		/* 	} */
+		/* } */
 		if (did_someone_die())
 			break ;
 	}
@@ -80,6 +91,7 @@ void	finish(void)
 	pthread_mutex_destroy(&r()->print);
 	pthread_mutex_destroy(&r()->death);
 	pthread_mutex_destroy(&r()->meals);
+	pthread_mutex_destroy(&r()->time);
 	free(r()->forks);
 	free(r()->philo);
 }

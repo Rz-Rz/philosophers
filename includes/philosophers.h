@@ -6,22 +6,22 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 16:38:33 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/27 17:39:17 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <semaphore.h>
-#include <unistd.h>
-#include <sys/time.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <stdatomic.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <pthread.h>
+# include <semaphore.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <errno.h>
+# include <stdatomic.h>
 
 // Conversion arguments
 typedef enum t
@@ -93,6 +93,7 @@ typedef struct s_rules
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
 	pthread_mutex_t	meals;
+	pthread_mutex_t time;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -154,6 +155,7 @@ void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo);
 long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
 void	now(t_time *time);
 void	get_time(t_time *time);
+long	get_time_ms(void);
 
 // memory.c
 void	*ft_memset(void *s, int c, size_t n);
@@ -162,6 +164,8 @@ void	*ft_calloc(size_t nmemb, size_t size);
 
 // glossy_if.c
 bool	did_someone_die(void);
+bool	did_philo_n_die(int i);
+bool	did_philo_n_eat_enough(int i);
 
 // handle_only_one.c
 bool	one_philo(t_philo *philo);

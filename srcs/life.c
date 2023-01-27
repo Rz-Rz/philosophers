@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 16:38:41 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/27 18:10:35 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	eat(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
+		check_death(philo);
 		get_time(&philo->last_meal);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
 		pthread_mutex_unlock(philo->left_fork);
@@ -55,6 +56,7 @@ static void	eat(t_philo *philo)
 		pthread_mutex_lock(philo->left_fork);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
+		check_death(philo);
 		get_time(&philo->last_meal);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
 		pthread_mutex_unlock(philo->right_fork);
@@ -78,11 +80,13 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->last_meal = r()->start_time;
 	if (r()->philo_nb == 1 && one_philo(philo))
 		return (NULL);
 	while (philo->check_vitals && !did_someone_die())
 	{
+		think(philo);
+		if (check_death(philo))
+			break ;
 		eat(philo);
 		pthread_mutex_lock(&r()->meals);
 		philo->nb_of_meals++;
@@ -95,7 +99,6 @@ void	*routine(void *arg)
 		}
 		pthread_mutex_unlock(&r()->meals);
 		sleeep(philo);
-		think(philo);
 		if (check_death(philo))
 			break ;
 	}
