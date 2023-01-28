@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/27 17:57:20 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 11:44:37 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,14 @@ void	death_checker(void)
 	int	i;
 	int	j;
 
-	while (!r()->all_ate)
+	while (!r()->all_ate && !r()->someone_died)
 	{
 		i = 0;
 		j = 0;
 		mutex_ul(&r()->meals, LOCK);
 		while (i < r()->philo_nb)
 		{
-			if (r()->philo[i].nb_of_meals \
-					== r()->nb_of_time_each_philo_must_eat)
+			if (did_philo_n_eat_enough(i))
 				j++;
 			i++;
 		}
@@ -57,18 +56,8 @@ void	death_checker(void)
 		if (j == r()->philo_nb)
 			r()->all_ate = true;
 		i = -1;
-		/* while (++i < r()->philo_nb) */
-		/* { */
-		/* 	if (did_philo_n_die(i)) */
-		/* 	{ */
-		/* 		log_msg(&r()->philo[i], "died"); */
-		/* 		pthread_mutex_lock(&r()->death); */
-		/* 		r()->someone_died = true; */
-		/* 		pthread_mutex_unlock(&r()->death); */
-		/* 	} */
-		/* } */
-		if (did_someone_die())
-			break ;
+		while (++i < r()->philo_nb)
+			global_death(i);
 	}
 }
 

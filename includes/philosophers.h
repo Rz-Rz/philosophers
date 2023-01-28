@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/27 17:39:17 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 11:46:52 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -93,7 +93,7 @@ typedef struct s_rules
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
 	pthread_mutex_t	meals;
-	pthread_mutex_t time;
+	pthread_mutex_t	time;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -125,6 +125,9 @@ bool	init_threads(void);
 bool	threads_cd(pthread_t *thread, void *(*routine)(void *),
 			void *arg, t_thread_action options);
 
+// meal_update.c
+bool	meal_update(t_philo *philo);
+
 // mutex.c
 bool	init_mutex(void);
 bool	mutex_cd(pthread_mutex_t *mutex, t_mutex_action options);
@@ -149,6 +152,10 @@ bool	assign(void *dest, int src);
 
 // ft_atoi.c
 int		ft_atoi(const char *nptr);
+
+// silent_kill.c
+void	silent_kill(int i);
+void	global_death(int i);
 
 // time.c
 void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo);

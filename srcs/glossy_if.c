@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/27 17:41:06 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 11:27:21 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ bool	did_philo_n_die(int i)
 	if (r()->time_to_die < (get_time_ms() - r()->philo[i].last_meal.millisecs))
 	{
 		pthread_mutex_unlock(&r()->time);
+		if (did_philo_n_eat_enough(i))
+			return (false);
 		return (true);
 	}
 	pthread_mutex_unlock(&r()->time);
@@ -39,7 +41,7 @@ bool	did_philo_n_die(int i)
 
 bool	did_philo_n_eat_enough(int i)
 {
-	if (r()->nb_of_time_each_philo_must_eat != -1)
+	if (r()->nb_of_time_each_philo_must_eat == -1)
 		return (false);
 	if (r()->philo[i].nb_of_meals >= r()->nb_of_time_each_philo_must_eat)
 		return (true);

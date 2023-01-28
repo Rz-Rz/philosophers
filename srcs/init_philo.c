@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 11:07:47 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/27 14:30:57 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 11:39:06 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ bool	init_rules(char **av)
 	if (assign(&r()->time_to_sleep, parse(av[4])) == false)
 		return (false);
 	if (av[5])
+	{
 		if (assign(&r()->nb_of_time_each_philo_must_eat, parse(av[5])) == false)
 			return (false);
+	}
+	else
+		r()->nb_of_time_each_philo_must_eat = -1;
 	return (true);
 }
 
