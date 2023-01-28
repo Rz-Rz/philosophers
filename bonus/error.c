@@ -6,11 +6,11 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 11:11:36 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/20 16:49:01 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 17:15:13 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 bool	generic_err(char *str)
 {

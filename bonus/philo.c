@@ -6,11 +6,11 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 11:44:37 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 17:13:22 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 int	main(int ac, char **av)
 {
@@ -25,11 +25,11 @@ bool	init_all(char **av)
 {
 	if (init_rules(av) == false)
 		return (generic_err("Wrong arguments !"));
-	if (init_mutex() == false)
+	if (init_semaphore() == false)
 		return (generic_err("Mutex init failed !"));
 	if (init_philo() == false)
 		return (generic_err("Philo init failed !"));
-	if (init_threads() == false)
+	if (init_forks() == false)
 		return (generic_err("Thread init failed !"));
 	death_checker();
 	finish();
