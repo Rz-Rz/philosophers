@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 17:42:39 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 15:26:58 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 // semaphore.c
 # include <fcntl.h>
 # include <sys/stat.h>
+# include <sys/types.h>
+# include <signal.h>
 # include <semaphore.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -23,6 +25,7 @@
 # include <semaphore.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <limits.h>
 # include <stdbool.h>
 # include <errno.h>
@@ -76,12 +79,13 @@ typedef struct s_time
 // individual philosopher
 typedef struct s_philo
 {
-	pthread_t		id;
+	int				*pid;
 	int				index;
 	t_time			last_meal;
 	int				nb_of_meals;
 	bool			check_vitals;
 	long			ttd;
+	char			*name;
 }					t_philo;
 
 typedef struct s_rules
@@ -112,6 +116,7 @@ bool    init_semaphore(void);
 
 //philo.c
 bool	init_all(char **av);
+void	finish(void);
 
 //error.c
 bool	generic_err(char *str);
@@ -119,6 +124,26 @@ bool	generic_err(char *str);
 //init_philo.c
 bool	init_rules(char **av);
 bool	init_philo(void);
+
+//forks.c
+bool	launch_forks(void);
+bool	fork_pid(int *pid);
+
+//glossy_if
+bool	did_someone_die(void);
+
+//meal_update.c
+bool	meal_update(t_philo *philo);
+
+//handle_only_one.c
+bool	one_philo(t_philo *philo);
+
+//log.c
+void	log_msg(t_philo *philo, char *msg);
+
+//life.c
+int		routine(t_philo *arg);
+bool	check_death(t_philo *philo);
 
 //philosophers.c
 void	allocate_philosophers(void);

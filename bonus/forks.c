@@ -6,16 +6,33 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:34:17 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 15:53:21 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 13:34:47 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
-void	allocate_forks(void)
+bool	launch_forks(void)
 {
-	pthread_mutex_t	*forks;
+	int	i;
 
-	forks = ft_calloc(sizeof(pthread_mutex_t), r()->philo_nb);
-	r()->forks = forks;
+	i = 0;
+	while (i < r()->philo_nb)
+	{
+		if (fork_pid(r()->philo[i].pid) == false)
+			return (false);
+		if (r()->philo[i].pid == 0)
+			routine(&r()->philo[i]);
+		i++;
+	}
+	return (true);
+}
+
+bool	fork_pid(int *pid)
+{
+	*pid = fork();
+	if (*pid == -1)
+		return (generic_err("Fork failed !"));
+	else
+		return (true);
 }

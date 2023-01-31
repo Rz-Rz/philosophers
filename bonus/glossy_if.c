@@ -6,25 +6,26 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 11:27:21 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 15:37:06 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 bool	did_someone_die(void)
 {
 	bool	someone_died;
 
-	pthread_mutex_lock(&r()->death);
+	sem_wait(r()->death);
 	if (r()->someone_died == true)
 		someone_died = true;
 	else
 		someone_died = false;
-	pthread_mutex_unlock(&r()->death);
+	sem_post(r()->death);
 	return (someone_died);
 }
 
+/*
 bool	did_philo_n_die(int i)
 {
 	pthread_mutex_lock(&r()->time);
@@ -47,3 +48,4 @@ bool	did_philo_n_eat_enough(int i)
 		return (true);
 	return (false);
 }
+*/

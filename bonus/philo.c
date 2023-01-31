@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 17:13:22 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 15:37:15 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,58 +29,42 @@ bool	init_all(char **av)
 		return (generic_err("Mutex init failed !"));
 	if (init_philo() == false)
 		return (generic_err("Philo init failed !"));
-	if (init_forks() == false)
+	if (launch_forks() == false)
 		return (generic_err("Thread init failed !"));
-	death_checker();
 	finish();
 	return (true);
-}
-
-void	death_checker(void)
-{
-	int	i;
-	int	j;
-
-	while (!r()->all_ate && !r()->someone_died)
-	{
-		i = 0;
-		j = 0;
-		mutex_ul(&r()->meals, LOCK);
-		while (i < r()->philo_nb)
-		{
-			if (did_philo_n_eat_enough(i))
-				j++;
-			i++;
-		}
-		mutex_ul(&r()->meals, UNLOCK);
-		if (j == r()->philo_nb)
-			r()->all_ate = true;
-		i = -1;
-		while (++i < r()->philo_nb)
-			global_death(i);
-	}
 }
 
 void	finish(void)
 {
 	int	i;
+	int	ret;
 
 	i = 0;
+	ret = 0;
 	while (i < r()->philo_nb)
 	{
-		pthread_join(r()->philo[i].id, NULL);
+		waitpid(-1, &ret, 0);
+		if (ret == -1)
+		{
+			i = 0;
+			while (i < r()->philo_nb)
+			{
+				kill(*(r()->philo[i].pid), SIGKILL);
+				i++;
+			}
+			break ;
+		}
 		i++;
 	}
-	i = 0;
-	while (i < r()->philo_nb)
-	{
-		pthread_mutex_destroy(&r()->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&r()->print);
-	pthread_mutex_destroy(&r()->death);
-	pthread_mutex_destroy(&r()->meals);
-	pthread_mutex_destroy(&r()->time);
+	sem_close(r()->print);
+	sem_close(r()->death);
+	sem_close(r()->meals);
+	sem_close(r()->time);
+	sem_unlink("/print");
+	sem_unlink("/death");
+	sem_unlink("/meals");
+	sem_unlink("/time");
 	free(r()->forks);
 	free(r()->philo);
 }

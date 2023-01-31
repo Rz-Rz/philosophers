@@ -6,11 +6,11 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:37:19 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 16:39:24 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/28 19:31:04 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 bool	one_philo(t_philo *philo)
 {
