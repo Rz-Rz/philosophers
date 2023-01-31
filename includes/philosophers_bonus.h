@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 15:26:58 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 21:01:46 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
-# include <semaphore.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <limits.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <semaphore.h>
 
 // Conversion arguments
 typedef enum t
@@ -79,7 +79,7 @@ typedef struct s_time
 // individual philosopher
 typedef struct s_philo
 {
-	int				*pid;
+	int				pid;
 	int				index;
 	t_time			last_meal;
 	int				nb_of_meals;
@@ -130,10 +130,11 @@ bool	launch_forks(void);
 bool	fork_pid(int *pid);
 
 //glossy_if
-bool	did_someone_die(void);
+bool	did_philo_eat_enough(t_philo *philo);
+bool	did_philo_die(t_philo *philo);
 
 //meal_update.c
-bool	meal_update(t_philo *philo);
+void	meal_update(t_philo *philo);
 
 //handle_only_one.c
 bool	one_philo(t_philo *philo);
@@ -143,7 +144,7 @@ void	log_msg(t_philo *philo, char *msg);
 
 //life.c
 int		routine(t_philo *arg);
-bool	check_death(t_philo *philo);
+void	*monitoring(void *arg);
 
 //philosophers.c
 void	allocate_philosophers(void);
@@ -159,5 +160,10 @@ long	get_time_ms(void);
 bool	is_valid_int(int nb);
 int		parse(char *str);
 bool	assign(void *dest, int src);
+
+//memory.c
+void	ft_bzero(void *s, size_t n);
+void	*ft_memset(void *s, int c, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif

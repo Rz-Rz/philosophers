@@ -6,11 +6,11 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:47:09 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/18 18:58:35 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 20:02:52 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {

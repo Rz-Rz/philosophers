@@ -6,11 +6,11 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/27 15:53:44 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 21:48:31 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 void	get_time(t_time *time)
 {
@@ -28,9 +28,7 @@ void	get_time(t_time *time)
 
 void	now(t_time *time)
 {
-	pthread_mutex_lock(&r()->time);
 	get_time(time);
-	pthread_mutex_unlock(&r()->time);
 }
 
 long	get_time_ms(void)
@@ -70,7 +68,7 @@ void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo)
 		{
 			if (usleep(CLOCK_TICK) != 0)
 				generic_err("usleep");
-			if (check_death(philo) == true)
+			if (did_philo_die(philo))
 				return ;
 			now(&current_time);
 			if ((current_time.millisecs - start.millisecs) >= time_to_sleep)

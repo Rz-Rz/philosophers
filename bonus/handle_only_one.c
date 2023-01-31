@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:37:19 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 19:31:04 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 19:54:20 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ bool	one_philo(t_philo *philo)
 {
 	log_msg(philo, "has taken a fork");
 	mod_sleep(r()->time_to_die, MILLISEC, philo);
-	check_death(philo);
+	log_msg(philo, "died");
 	return (true);
 }

@@ -6,7 +6,7 @@
 #    By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/13 18:38:45 by kdhrif            #+#    #+#              #
-#    Updated: 2023/01/23 18:35:44 by kdhrif           ###   ########.fr        #
+#    Updated: 2023/01/31 20:05:11 by kdhrif           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,10 +49,10 @@ ${NAME}: $(OBJS_DIR) $(OBJS) ${HEADERS}
 	@echo "\033[32m$ ${NAME} compiled !"
 
 ${BONUS_OBJS_DIR}/%.o: ${BONUS_DIR}/%.c
-	@${CC} ${CFLAGS} -c $< -o $@
+	@${CC} ${CFLAGS} -pthread  -c $< -o $@
 
 ${BONUS_NAME}: $(BONUS_OBJS_DIR) $(BONUS_OBJS) ${BONUS_HEADERS}
-	$(CC) $(CFLAGS) $(BONUS_OBJS) -o $(BONUS_NAME)
+	$(CC) $(CFLAGS) -pthread  $(BONUS_OBJS) -o $(BONUS_NAME)
 	@echo "\033[32m$ ${NAME} compiled !"
 
 bonus: ${BONUS_NAME}

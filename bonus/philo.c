@@ -6,11 +6,12 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 15:37:15 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 21:42:59 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
+#include <stdlib.h>
 
 int	main(int ac, char **av)
 {
@@ -26,7 +27,7 @@ bool	init_all(char **av)
 	if (init_rules(av) == false)
 		return (generic_err("Wrong arguments !"));
 	if (init_semaphore() == false)
-		return (generic_err("Mutex init failed !"));
+		return (generic_err("Semaphore init failed !"));
 	if (init_philo() == false)
 		return (generic_err("Philo init failed !"));
 	if (launch_forks() == false)
@@ -41,16 +42,15 @@ void	finish(void)
 	int	ret;
 
 	i = 0;
-	ret = 0;
 	while (i < r()->philo_nb)
 	{
 		waitpid(-1, &ret, 0);
-		if (ret == -1)
+		if (ret != 0)
 		{
 			i = 0;
 			while (i < r()->philo_nb)
 			{
-				kill(*(r()->philo[i].pid), SIGKILL);
+				kill(r()->philo[i].pid, SIGKILL);
 				i++;
 			}
 			break ;
@@ -65,6 +65,5 @@ void	finish(void)
 	sem_unlink("/death");
 	sem_unlink("/meals");
 	sem_unlink("/time");
-	free(r()->forks);
 	free(r()->philo);
 }

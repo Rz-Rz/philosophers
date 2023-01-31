@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:54:32 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 15:36:34 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 21:19:42 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	log_msg(t_philo *philo, char *msg)
 	now(&current_time);
 	elapsed = elapsed_time(&r()->start_time, &current_time, MILLISEC);
 	sem_wait(r()->print);
-	if (did_someone_die() == false)
+	if (!did_philo_die(philo))
 		printf("%ld %d %s\n", elapsed, philo->index, msg);
 	sem_post(r()->print);
 }

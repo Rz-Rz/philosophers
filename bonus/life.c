@@ -6,32 +6,36 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 15:42:46 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/01/31 21:50:01 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
+#include <pthread.h>
 
-/* bool	check_death(t_philo *philo) */
-/* { */
-/* 	t_time			current_time; */
-/* 	long			elapsed; */
+void	*monitoring(void *arg)
+{
+	t_time			current_time;
+	long			elapsed;
+	t_philo			*philo;
 
-/* 	now(&current_time); */
-/* 	elapsed = elapsed_time(&philo->last_meal, &current_time, MILLISEC); */
-/* 	if (elapsed >= r()->time_to_die) */
-/* 	{ */
-/* 		log_msg(philo, "died"); */
-/* 		philo->check_vitals = false; */
-/* 		sem_wait(r()->death); */
-/* 		r()->someone_died = true; */
-/* 		sem_wait(r()->death); */
-/* 		return (true); */
-/* 	} */
-/* 	else if (did_someone_die()) */
-/* 		return (true); */
-/* 	return (false); */
-/* } */
+	philo = (t_philo *)arg;
+	while (true)
+	{
+		now(&current_time);
+		elapsed = elapsed_time(&philo->last_meal, &current_time, MILLISEC);
+		if (elapsed >= r()->time_to_die)
+		{
+			log_msg(philo, "died");
+			sem_wait(r()->death);
+			philo->check_vitals = false;
+			sem_post(r()->death);
+			break ;
+		}
+		usleep(CLOCK_TICK);
+	}
+	return (NULL);
+}
 
 static void	eat(t_philo *philo)
 {
@@ -75,18 +79,28 @@ static void	think(t_philo *philo)
 
 int	routine(t_philo *arg)
 {
-	t_philo	*philo;
+	t_philo		*philo;
+	pthread_t	monitor;
 
 	philo = (t_philo *)arg;
 	if (r()->philo_nb == 1 && one_philo(philo))
-		return (0);
-	while (philo->check_vitals)
+		exit(0);
+	pthread_create(&monitor, NULL, monitoring, arg);
+	while (philo->check_vitals && !did_philo_eat_enough(philo))
 	{
 		think(philo);
+		if (did_philo_die(philo))
+			break ;
 		eat(philo);
+		if (did_philo_die(philo))
+			break ;
+		meal_update(philo);
+		if (did_philo_die(philo))
+			break ;
 		sleeep(philo);
 	}
+	pthread_join(monitor, NULL);
 	if (!philo->check_vitals)
-		return (1);
-	return (0);
+		exit(-1);
+	exit(0);
 }
