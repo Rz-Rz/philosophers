@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 14:40:12 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:39:42 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_rules
 	sem_t			*death;
 	sem_t			*meals;
 	sem_t			*time;
+	sem_t			*stop;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -112,11 +113,15 @@ typedef struct s_rules
 t_rules	*r(void);
 
 //semaphore.c
-bool    init_semaphore(void);
+bool	init_semaphore(void);
 
 //philo.c
 bool	init_all(char **av);
 void	finish(void);
+
+//utils.c
+void	sem_close_all(void);
+void	sem_unlink_all(void);
 
 //error.c
 bool	generic_err(char *str);

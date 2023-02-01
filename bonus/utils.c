@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log.c                                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 13:54:32 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 17:33:31 by kdhrif           ###   ########.fr       */
+/*   Created: 2023/02/01 17:36:41 by kdhrif            #+#    #+#             */
+/*   Updated: 2023/02/01 17:38:49 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
 
-void	log_msg(t_philo *philo, char *msg)
+void	sem_close_all(void)
 {
-	t_time			current_time;
-	long			elapsed;
+	sem_close(r()->print);
+	sem_close(r()->death);
+	sem_close(r()->meals);
+	sem_close(r()->forks);
+	sem_close(r()->time);
+	sem_close(r()->stop);
+}
 
-	now(&current_time);
-	elapsed = elapsed_time(&r()->start_time, &current_time, MILLISEC);
-	sem_wait(r()->print);
-	if (!did_philo_die(philo) && r()->stop->__align != 0)
-		printf("%ld %d %s\n", elapsed, philo->index, msg);
-	sem_post(r()->print);
+void	sem_unlink_all(void)
+{
+	sem_unlink("/forks");
+	sem_unlink("/meals");
+	sem_unlink("/death");
+	sem_unlink("/print");
+	sem_unlink("/time");
+	sem_unlink("/stop");
 }

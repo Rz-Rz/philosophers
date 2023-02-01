@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 15:17:23 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:42:14 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,10 @@ void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo)
 	{
 		while (true)
 		{
+			if (did_philo_die(philo))
+				break ;
 			if (usleep(CLOCK_TICK) != 0)
 				generic_err("usleep");
-			if (did_philo_die(philo))
-			{
-				printf("wonder if this catches anything ?\n");
-				break ;
-			}
 			now(&current_time);
 			if ((current_time.millisecs - start.millisecs) >= time_to_sleep)
 				break ;

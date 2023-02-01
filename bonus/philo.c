@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 15:51:19 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:41:42 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,15 @@ void	finish(void)
 			i = 0;
 			while (i < r()->philo_nb)
 			{
-				kill(r()->philo[i].pid, SIGTERM);
+				kill(r()->philo[i].pid, SIGKILL);
 				i++;
 			}
-			sem_post(r()->print);
+			sem_post(r()->stop);
 			break ;
 		}
 		i++;
 	}
-	sem_close(r()->print);
-	sem_close(r()->death);
-	sem_close(r()->meals);
-	sem_close(r()->forks);
-	sem_close(r()->time);
-	sem_unlink("/time");
-	sem_unlink("/print");
-	sem_unlink("/death");
-	sem_unlink("/meals");
-	sem_unlink("/forks");
+	sem_close_all();
+	sem_unlink_all();
 	free(r()->philo);
 }

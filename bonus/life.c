@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 16:13:10 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:46:10 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	*monitoring(void *arg)
 		{
 			log_msg(philo, "died");
 			sem_wait(r()->death);
+			sem_wait(r()->stop);
 			philo->check_vitals = false;
 			sem_post(r()->death);
 			return (NULL);
@@ -101,7 +102,6 @@ int	routine(t_philo *arg)
 		meal_update(philo);
 		sleeep(philo);
 	}
-	printf("philo index %d exiting late after death ?\n", philo->index);
 	pthread_join(monitor, NULL);
 	if (!philo->check_vitals)
 		exit(-1);

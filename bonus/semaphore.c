@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:19:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 14:46:53 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:32:40 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ bool    init_semaphore(void)
 	sem_unlink("/death");
 	sem_unlink("/print");
 	sem_unlink("/time");
+	sem_unlink("/stop");
+	r()->stop = sem_open("/stop", O_CREAT, 0644, 1);
+	if (r()->stop == SEM_FAILED)
+		return (false);
 	r()->time = sem_open("/time", O_CREAT, 0644, 1);
 	if (r()->time == SEM_FAILED)
 		return (false);
