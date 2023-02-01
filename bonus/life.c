@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 21:50:01 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 16:13:10 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@ void	*monitoring(void *arg)
 	while (true)
 	{
 		now(&current_time);
+		sem_wait(r()->time);
 		elapsed = elapsed_time(&philo->last_meal, &current_time, MILLISEC);
-		if (elapsed >= r()->time_to_die)
+		sem_post(r()->time);
+		if (elapsed >= r()->time_to_die && !did_philo_eat_enough(philo))
 		{
 			log_msg(philo, "died");
 			sem_wait(r()->death);
 			philo->check_vitals = false;
 			sem_post(r()->death);
-			break ;
+			return (NULL);
 		}
+		if (did_philo_eat_enough(philo))
+			return (NULL);
 		usleep(CLOCK_TICK);
 	}
 	return (NULL);
@@ -46,7 +50,9 @@ static void	eat(t_philo *philo)
 		sem_wait(r()->forks);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
+		sem_wait(r()->time);
 		get_time(&philo->last_meal);
+		sem_post(r()->time);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
 		sem_post(r()->forks);
 		sem_post(r()->forks);
@@ -59,7 +65,9 @@ static void	eat(t_philo *philo)
 		sem_wait(r()->forks);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
+		sem_wait(r()->time);
 		get_time(&philo->last_meal);
+		sem_post(r()->time);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
 		sem_post(r()->forks);
 		sem_post(r()->forks);
@@ -86,19 +94,14 @@ int	routine(t_philo *arg)
 	if (r()->philo_nb == 1 && one_philo(philo))
 		exit(0);
 	pthread_create(&monitor, NULL, monitoring, arg);
-	while (philo->check_vitals && !did_philo_eat_enough(philo))
+	while (is_alive(philo) && !did_philo_eat_enough(philo))
 	{
 		think(philo);
-		if (did_philo_die(philo))
-			break ;
 		eat(philo);
-		if (did_philo_die(philo))
-			break ;
 		meal_update(philo);
-		if (did_philo_die(philo))
-			break ;
 		sleeep(philo);
 	}
+	printf("philo index %d exiting late after death ?\n", philo->index);
 	pthread_join(monitor, NULL);
 	if (!philo->check_vitals)
 		exit(-1);

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 21:01:46 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 14:40:12 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ bool	fork_pid(int *pid);
 //glossy_if
 bool	did_philo_eat_enough(t_philo *philo);
 bool	did_philo_die(t_philo *philo);
+bool	is_alive(t_philo *philo);
 
 //meal_update.c
 void	meal_update(t_philo *philo);
