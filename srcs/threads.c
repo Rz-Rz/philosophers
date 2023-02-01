@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:34:40 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/24 15:57:39 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 20:12:40 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@ bool	init_threads(void)
 {
 	int	i;
 
-	i = 0;
-	while (i < r()->philo_nb)
-	{
-		if (threads_cd(&r()->philo[i].id,
-				routine, &r()->philo[i], INIT) == false)
+	i = -1;
+	while (++i < r()->philo_nb)
+		if(pthread_create(&r()->philo[i].id, NULL, routine, &r()->philo[i]))
 			return (false);
-		i++;
-	}
 	return (true);
 }
 

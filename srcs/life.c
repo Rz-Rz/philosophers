@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 19:11:58 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 19:49:19 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,9 @@ void	*routine(void *arg)
 	if (r()->philo_nb == 1 && one_philo(philo))
 		return (NULL);
 	if (philo->index % 2 != 0)
-		usleep(15000);
+		usleep(10000);
 	while (philo->check_vitals && !did_someone_die())
 	{
-		if (check_death(philo))
-			break ;
 		eat(philo);
 		if (meal_update(philo))
 			break ;
