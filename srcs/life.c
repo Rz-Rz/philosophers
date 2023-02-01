@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 11:35:20 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 19:11:58 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	eat(t_philo *philo)
 	}
 	else
 	{
-		usleep(CLOCK_TICK);
 		pthread_mutex_lock(philo->right_fork);
 		log_msg(philo, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
@@ -81,9 +80,10 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (r()->philo_nb == 1 && one_philo(philo))
 		return (NULL);
+	if (philo->index % 2 != 0)
+		usleep(15000);
 	while (philo->check_vitals && !did_someone_die())
 	{
-		think(philo);
 		if (check_death(philo))
 			break ;
 		eat(philo);
@@ -92,6 +92,7 @@ void	*routine(void *arg)
 		sleeep(philo);
 		if (check_death(philo))
 			break ;
+		think(philo);
 	}
 	return (NULL);
 }

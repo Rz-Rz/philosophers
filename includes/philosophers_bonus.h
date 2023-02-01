@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 17:39:42 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 18:12:07 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	finish(void);
 //utils.c
 void	sem_close_all(void);
 void	sem_unlink_all(void);
+void	get_eat_time(t_philo *philo);
 
 //error.c
 bool	generic_err(char *str);
@@ -138,6 +139,7 @@ bool	fork_pid(int *pid);
 bool	did_philo_eat_enough(t_philo *philo);
 bool	did_philo_die(t_philo *philo);
 bool	is_alive(t_philo *philo);
+bool	someone_died(void);
 
 //meal_update.c
 void	meal_update(t_philo *philo);
@@ -156,7 +158,7 @@ void	*monitoring(void *arg);
 void	allocate_philosophers(void);
 
 // time.c
-void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo);
+void	mod_sleep(long time_to_sleep);
 long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
 void	now(t_time *time);
 void	get_time(t_time *time);

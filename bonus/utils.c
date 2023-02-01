@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 17:36:41 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 17:38:49 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 18:04:51 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,11 @@ void	sem_unlink_all(void)
 	sem_unlink("/print");
 	sem_unlink("/time");
 	sem_unlink("/stop");
+}
+
+void	get_eat_time(t_philo *philo)
+{
+	sem_wait(r()->time);
+	get_time(&philo->last_meal);
+	sem_post(r()->time);
 }

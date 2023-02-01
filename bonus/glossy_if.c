@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 14:50:31 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 18:07:08 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,22 @@ bool	did_philo_die(t_philo *philo)
 	return (someone_died);
 }
 
+bool	someone_died(void)
+{
+	if (r()->stop->__align == 0)
+		return (true);
+	else 
+		return (false);
+}
+
 bool	did_philo_eat_enough(t_philo *philo)
 {
 	bool	eat_enough;
 
 	sem_wait(r()->meals);
-	if (philo->nb_of_meals >= r()->nb_of_time_each_philo_must_eat && r()->nb_of_time_each_philo_must_eat != -1)
+	if (philo->nb_of_meals
+		>= r()->nb_of_time_each_philo_must_eat
+		&& r()->nb_of_time_each_philo_must_eat != -1)
 		eat_enough = true;
 	else
 		eat_enough = false;

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 17:46:10 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/01 18:12:44 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ static void	eat(t_philo *philo)
 		sem_wait(r()->forks);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
-		sem_wait(r()->time);
-		get_time(&philo->last_meal);
-		sem_post(r()->time);
-		mod_sleep(r()->time_to_eat, MILLISEC, philo);
+		get_eat_time(philo);
+		mod_sleep(r()->time_to_eat);
 		sem_post(r()->forks);
 		sem_post(r()->forks);
 	}
@@ -66,10 +64,8 @@ static void	eat(t_philo *philo)
 		sem_wait(r()->forks);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
-		sem_wait(r()->time);
-		get_time(&philo->last_meal);
-		sem_post(r()->time);
-		mod_sleep(r()->time_to_eat, MILLISEC, philo);
+		get_eat_time(philo);
+		mod_sleep(r()->time_to_eat);
 		sem_post(r()->forks);
 		sem_post(r()->forks);
 	}
@@ -78,7 +74,7 @@ static void	eat(t_philo *philo)
 static void	sleeep(t_philo *philo)
 {
 	log_msg(philo, "is sleeping");
-	mod_sleep(r()->time_to_sleep, MILLISEC, philo);
+	mod_sleep(r()->time_to_sleep);
 }
 
 static void	think(t_philo *philo)
@@ -95,10 +91,12 @@ int	routine(t_philo *arg)
 	if (r()->philo_nb == 1 && one_philo(philo))
 		exit(0);
 	pthread_create(&monitor, NULL, monitoring, arg);
-	while (is_alive(philo) && !did_philo_eat_enough(philo))
+	while (!someone_died() && !did_philo_eat_enough(philo))
 	{
 		think(philo);
 		eat(philo);
+		if (someone_died())
+			break ;
 		meal_update(philo);
 		sleeep(philo);
 	}
