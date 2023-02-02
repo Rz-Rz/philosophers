@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 10:45:20 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 10:47:49 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 12:38:37 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,12 @@ bool	meal_update(t_philo *philo)
 	}
 	pthread_mutex_unlock(&r()->meals);
 	return (false);
+}
+
+long	get_time_micro(void)
+{
+	t_time	time;
+
+	get_time(&time);
+	return (time.microsecs);
 }

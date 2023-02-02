@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 18:07:08 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:04:20 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ bool	did_philo_die(t_philo *philo)
 
 bool	someone_died(void)
 {
-	if (r()->stop->__align == 0)
+	if (r()->stop->__align == 0 || r()->death->__align != 1)
 		return (true);
-	else 
+	else
 		return (false);
 }
 

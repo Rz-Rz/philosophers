@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:34:40 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 20:12:40 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 13:43:56 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ bool	init_threads(void)
 	int	i;
 
 	i = -1;
+	get_time(&r()->start_time);
+	r()->wait_time.microsecs = r()->start_time.microsecs + 500;
 	while (++i < r()->philo_nb)
-		if(pthread_create(&r()->philo[i].id, NULL, routine, &r()->philo[i]))
+		if (pthread_create(&r()->philo[i].id, NULL, routine, &r()->philo[i]))
 			return (false);
 	return (true);
 }

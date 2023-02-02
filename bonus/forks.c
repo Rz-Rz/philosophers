@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:34:17 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/31 21:06:09 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:03:50 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ bool	launch_forks(void)
 	t_philo	*philo;
 
 	i = 0;
+	sem_wait(r()->stop);
 	while (i < r()->philo_nb)
 	{
 		philo = &r()->philo[i];
@@ -27,6 +28,7 @@ bool	launch_forks(void)
 			routine(&r()->philo[i]);
 		i++;
 	}
+	sem_post(r()->stop);
 	return (true);
 }
 

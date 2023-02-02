@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 17:41:42 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 14:45:26 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	finish(void)
 				kill(r()->philo[i].pid, SIGKILL);
 				i++;
 			}
-			sem_post(r()->stop);
 			break ;
 		}
 		i++;
 	}
+	sem_post(r()->stop);
 	sem_close_all();
 	sem_unlink_all();
 	free(r()->philo);

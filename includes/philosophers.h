@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 11:46:52 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 13:44:33 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -99,6 +99,7 @@ typedef struct s_rules
 	int				time_to_sleep;
 	pthread_t		*philo_id;
 	t_time			start_time;
+	t_time			wait_time;
 	int				nb_of_time_each_philo_must_eat;
 	t_philo			*philo;
 	bool			someone_died;
@@ -163,6 +164,7 @@ long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
 void	now(t_time *time);
 void	get_time(t_time *time);
 long	get_time_ms(void);
+long	get_time_micro(void);
 
 // memory.c
 void	*ft_memset(void *s, int c, size_t n);

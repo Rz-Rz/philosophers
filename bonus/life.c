@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 18:12:44 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 14:56:15 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*monitoring(void *arg)
 		}
 		if (did_philo_eat_enough(philo))
 			return (NULL);
-		usleep(CLOCK_TICK);
+		usleep(50);
 	}
 	return (NULL);
 }
@@ -58,7 +58,6 @@ static void	eat(t_philo *philo)
 	}
 	else
 	{
-		usleep(CLOCK_TICK);
 		sem_wait(r()->forks);
 		log_msg(philo, "has taken a fork");
 		sem_wait(r()->forks);
@@ -90,6 +89,10 @@ int	routine(t_philo *arg)
 	philo = (t_philo *)arg;
 	if (r()->philo_nb == 1 && one_philo(philo))
 		exit(0);
+	while (r()->stop->__align == 0)
+		usleep(50);
+	if (philo->index % 2 != 0)
+		usleep(5000);
 	pthread_create(&monitor, NULL, monitoring, arg);
 	while (!someone_died() && !did_philo_eat_enough(philo))
 	{
