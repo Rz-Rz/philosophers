@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/02 13:44:33 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/02 17:22:01 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -125,6 +125,7 @@ void	allocate_forks(void);
 bool	init_threads(void);
 bool	threads_cd(pthread_t *thread, void *(*routine)(void *),
 			void *arg, t_thread_action options);
+void	release_threads(int i);
 
 // meal_update.c
 bool	meal_update(t_philo *philo);
