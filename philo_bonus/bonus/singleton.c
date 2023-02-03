@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   singleton.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 11:05:39 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/15 17:04:15 by kdhrif           ###   ########.fr       */
+/*   Created: 2023/01/17 11:39:11 by kdhrif            #+#    #+#             */
+/*   Updated: 2023/02/03 16:08:31 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
-int	ft_atoi(const char *nptr)
+t_rules	*r(void)
 {
-	int	nb;
-	int	neg;
+	static t_rules	rules;
 
-	nb = 0;
-	neg = 0;
-	while ((*nptr >= 9 && *nptr <= 13) || (*nptr == ' '))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
-		if (*nptr++ == '-')
-			neg++;
-	while (*nptr >= '0' && *nptr <= '9')
-		nb = nb * 10 + *nptr++ - '0';
-	if (neg)
-		nb *= -1;
-	return (nb);
+	return (&rules);
 }

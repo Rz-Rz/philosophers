@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 18:12:07 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/03 16:08:49 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,17 @@ bool	someone_died(void);
 
 //meal_update.c
 void	meal_update(t_philo *philo);
+
+//ft_atoi.c
+int		ft_atoi(const char *nptr);
+
+//singleton.c
+t_rules	*r(void);
+
+//parsing.c
+bool	is_valid_int(int nb);
+int		parse(char *str);
+bool	assign(void *dest, int src);
 
 //handle_only_one.c
 bool	one_philo(t_philo *philo);

@@ -6,11 +6,11 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 13:29:29 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/17 17:47:01 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/03 16:02:39 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
 // name: is_valid_int
 // description: check if the int is within acceptable range
