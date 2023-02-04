@@ -29,73 +29,80 @@ error_log ()
 test_one ()
 {
     ("$2/$1" 4 310 200 100 > "./log_$1")&
-    sleep 5
+    sleep 2
     pkill $1
     output=$(grep died -m 1 "./log_$1" | awk '{print $NF}')
 	count=$(grep -c died "./log_$1")
-	grep -c died "./log_$1"
-    if [ "$output" = "died" && count -eq 1];then
-        echo "${green}[+] Test #1 Succeeded !${reset}"
+	after_died=$(sed -n '/died/{n;p;}' "./log_$1")
+	if [ "$output" = "died" ] && [ "$count" = "1" ];then
+		# Extract all lines after the first occurrence of "died"
+		after_died=$(sed -n '/died/{n;p;}' "./log_$1")
+  		# Check if there are any more messages after "died"
+  		if [ -n "$after_died" ]; then
+	 		echo "${red}[-] Test #1 Failed: Simulation does not end after a death${reset}"
+  		else
+	 		echo "${green}[+] Test #1 Succeeded !${reset}"
+  	fi
     else
-        echo "${red}[+] Test #1 Failed !${reset}"
-        error_log $1 "Test #1" "Given 4 310 200 100 arguments to $1, a philosopher should die !"
+		if [ "$count" = "0" ]; then
+			echo "${red}[-] Test #1 Failed: No death${reset}"
+		fi
+		if [ "$count" > "1" ]; then
+			echo "${red}[-] Test #1 Failed: More than one death${reset}"
+		fi
+        # error_log $1 "Test #1" "Given 4 310 200 100 arguments to $1, a philosopher should die !"
     fi
     rm -rf "./log_$1"
 }
 
-test_two ()
-{
-    ("$2/$1" 1 800 200 200 > "./log_$1")&
-    sleep 5
-    pkill $1
-    output=$(grep died -m 1 "./log_$1" | awk '{print $NF}')
-	count=$(grep -c died "./log_$1")
-	cat count;
-    if [ "$output" = "died" && count -eq 1];then
-        echo "${green}[+] Test #2 Succeeded !${reset}"
-    else
-        echo "${red}[+] Test #2 Failed !${reset}"
-        error_log $1 "Test #2" "Given 1 800 200 200 arguments to $1, a philosopher should die !"
-    fi
-    rm -rf "./log_$1"
+test_philosopher () {
+  local program_name="$1"
+  local program_path="$2"
+  local program_params=("${@:3:4}")
+  local test_number="$4"
+  local log_file="./log_$program_name"
+  ("$program_path/$program_name" "${program_params[@]}" > "$log_file")&
+  sleep 2
+  pkill "$program_name"
+
+  check_death_occurred  "$test_number" "$log_file" || return 1
+  check_simulation_ends "$test_number" "$log_file" || return 1
+
+  # rm -rf "$log_file"
 }
 
-test_three ()
-{
-    ("$2/$1" 4 200 205 200 > "./log_$1")&
-    sleep 5
-    pkill $1
-    output=$(grep died -m 1 "./log_$1" | awk '{print $NF}')
-	count=$(grep -c died "./log_$1")
-    if [ "$output" = "died" && count -eq 1];then
-        echo "${green}[+] Test #3 Succeeded !${reset}"
-    else
-        echo "${red}[+] Test #3 Failed !${reset}"
-        error_log $1 "Test #3" "Given 4 200 205 200 arguments to $1, a philosopher should die !"
-    fi
-    rm -rf "./log_$1"
+check_death_occurred () {
+  local test_num="$1"
+  local log_file="$2"
+  local death_count=$(grep -c died "$log_file")
+
+  if [ "$death_count" -eq 0 ]; then
+    echo "${red}[-] Test #${test_num} Failed: No death${reset}"
+    return 1
+  elif [ "$death_count" -gt 1 ]; then
+    echo "${red}[-] Test #${test_num} Failed: More than one death${reset}"
+    return 1
+  fi
+
+  echo "${green}[+] Test #${test_num} Succeeded ! Only one death occured.${reset}"
 }
 
-test_four ()
-{
-    ("$2/$1" 4 310 60 400 > "./log_$1")&
-    sleep 5
-    pkill $1
-    output=$(grep died -m 1 "./log_$1" | awk '{print $NF}')
-	count=$(grep -c died "./log_$1")
-    if [ "$output" = "died" && count -eq 1];then
-        echo "${green}[+] Test #4 Succeeded !${reset}"
-    else
-        echo "${red}[+] Test #4 Failed !${reset}"
-        error_log $1 "Test #4" "Given 4 310 60 400 arguments to $1, a philosopher should die !"
-    fi
-    rm -rf "./log_$1"
-}
+check_simulation_ends () {
+  local test_num="$1"
+  local log_file="$2"
+  local after_death=$(sed -n '/died/{n;p;}' "$log_file")
 
+  if [ -n "$after_death" ]; then
+    echo "${red}[-] Test #${test_num} Failed: Simulation does not end after a death${reset}"
+    return 1
+  fi
+
+  echo "${green}[+] Test #${test_num} Succeeded ! Simulation ends after death${reset}"
+}
 
 if [ "$2" -eq 1 -o "$2" -eq 0 ];then
 
-    echo "[============[Testing philo]==============]\n"
+    echo -e "[============[Testing philo]==============]\n"
 
     target="philo"
     make -C "$1/" > /dev/null
@@ -105,11 +112,12 @@ if [ "$2" -eq 1 -o "$2" -eq 0 ];then
         exit
     fi
 
-    test_one $target $1
+    # test_one $target $1
+	test_philosopher "$target" "$1" "4" "310" "200" "100" "2"
     # test_two $target $1
     # test_three $target $1
     # test_four $target $1
 
-    rm -rf "./log_$target"
+    # rm -rf "./log_$target"
 fi
 

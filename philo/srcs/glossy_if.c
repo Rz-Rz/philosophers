@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/01/28 11:27:21 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/04 09:08:42 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,14 @@ bool	did_philo_n_eat_enough(int i)
 	if (r()->philo[i].nb_of_meals >= r()->nb_of_time_each_philo_must_eat)
 		return (true);
 	return (false);
+}
+
+bool	all_philo_ate(void)
+{
+	if (r()->nb_of_time_each_philo_must_eat == -1)
+		return (false);
+	if (r()->all_ate == true)
+		return (true);
+	else
+		return (false);
 }

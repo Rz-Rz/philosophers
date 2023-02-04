@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/03 19:09:24 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/04 08:33:38 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	eat(t_philo *philo)
 		log_msg(philo, "is eating");
 		get_time(&philo->last_meal);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
+		meal_update(philo);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 	}
@@ -57,6 +58,7 @@ static void	eat(t_philo *philo)
 		log_msg(philo, "is eating");
 		get_time(&philo->last_meal);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
+		meal_update(philo);
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
 	}
@@ -85,7 +87,7 @@ void	*routine(void *arg)
 	get_time(&philo->last_meal);
 	if (philo->index % 2 != 0)
 		usleep(10000);
-	while (philo->check_vitals && !did_someone_die())
+	while (!all_philo_ate() && !did_someone_die())
 	{
 		eat(philo);
 		sleeep(philo);

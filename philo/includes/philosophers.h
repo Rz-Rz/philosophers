@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/02 17:22:01 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/04 08:32:49 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -94,6 +94,7 @@ typedef struct s_rules
 	pthread_mutex_t	death;
 	pthread_mutex_t	meals;
 	pthread_mutex_t	time;
+	pthread_mutex_t all_ate_mutex;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -128,7 +129,7 @@ bool	threads_cd(pthread_t *thread, void *(*routine)(void *),
 void	release_threads(int i);
 
 // meal_update.c
-bool	meal_update(t_philo *philo);
+void	meal_update(t_philo *philo);
 
 // mutex.c
 bool	init_mutex(void);
@@ -176,6 +177,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 bool	did_someone_die(void);
 bool	did_philo_n_die(int i);
 bool	did_philo_n_eat_enough(int i);
+bool	all_philo_ate(void);
 
 // handle_only_one.c
 bool	one_philo(t_philo *philo);
