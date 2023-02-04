@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/04 08:33:38 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/04 19:22:49 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void	*routine(void *arg)
 		return (NULL);
 	while (get_time_micro() < r()->wait_time.microsecs)
 		usleep(50);
+	pthread_mutex_lock(&r()->meals);
 	get_time(&philo->last_meal);
+	pthread_mutex_unlock(&r()->meals);
 	if (philo->index % 2 != 0)
 		usleep(10000);
 	while (!all_philo_ate() && !did_someone_die())

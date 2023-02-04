@@ -41,7 +41,23 @@ test_philosopher_death () {
   test_valgrind $1 $2 $3 $4 $5 $6 $7 $test_number
   test_helgrind $1 $2 $3 $4 $5 $6 $7 $test_number
 
-  # rm -rf "$log_file"
+  rm -rf "$log_file"
+}
+
+test_philosopher_meals () {
+	echo -e "\n"
+  local program_name="$1"
+  local program_path="$2"
+  local program_params=("${@:3:5}")
+  local test_number="$8"
+  local log_file="./log_$program_name"
+  echo -e "${yellow}[+] Testing $program_name with ${program_params[@]}${reset}"
+  (timeout 10 "$program_path/$program_name" "${program_params[@]}" > "$log_file")
+
+  check_philosophers_eat "$log_file" "$3" "$7" "$test_number" "${program_params[@]}"
+  rm -rf "$log_file"
+  test_valgrind_meals $1 $2 $3 $4 $5 $6 $7 $8 $test_number
+  test_helgrind_meals $1 $2 $3 $4 $5 $6 $7 $8 $test_number
 }
 
 check_death_occurred () {
@@ -97,6 +113,53 @@ test_helgrind () {
   rm -rf "./helgrind_$1.log"
 }
 
+test_valgrind_meals () {
+  local parameters="$3 $4 $5 $6 $7"
+  local test_num="$8"
+  timeout 20 valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=1 "$2/$1" $parameters &> "./valgrind_$1.log"
+  if [ $? -eq 0 ]; then
+    echo "${green}[+] Test #${test_num} Valgrind Test Succeeded !${reset}"
+  else
+    echo "${red}[-] Test #${test_num} Valgrind Test Failed: Memory leaks detected${reset}"
+  fi
+  rm -rf "./valgrind_$1.log"
+}
+
+test_helgrind_meals () {
+  local parameters="$3 $4 $5 $6 $7"
+  local test_num="$8"
+  timeout 20 valgrind --tool=helgrind --error-exitcode=1 "$2/$1" $parameters &> "./helgrind_$1.log"
+  if [ $? -eq 0 ]; then
+    echo "${green}[+] Test #${test_num} Helgrind Test Succeeded !${reset}"
+  else
+    echo "${red}[-] Test #${test_num} Helgrind Test Failed: Race conditions detected${reset}"
+  fi
+  rm -rf "./helgrind_$1.log"
+}
+
+
+check_philosophers_eat () {
+	local log_file="$1"
+	local num_philosophers="$2"
+	local num_meals="$3"
+	local test_num="$4"
+	local parameters="${@:5}"
+
+
+	for (( i=1; i<=num_philosophers; i++ ))
+	do
+		local philosopher_eat_count=$(grep -c "$i is eating" "$log_file")
+		echo -e "${yellow}[+] Philosopher $i ate $philosopher_eat_count times${reset}"
+		if [ "$philosopher_eat_count" -lt "$num_meals" ] || [ "$philosopher_eat_count" -gt $((num_meals + 2)) ]; then
+			echo "${red}[-] Test #${test_num} Failed: Philosopher $i has not eaten enough times or has eaten too many times${reset}"
+			echo "${red}[-] Test #${test_num} Failed: Failed with ${parameters} ${reset}"
+			return 1
+		fi
+	done
+
+  echo "${green}[+] Test #${test_num} Succeeded with params: ${parameters[@]} !${reset}"
+}
+
 if [ "$2" -eq 1 -o "$2" -eq 0 ];then
 
     echo -e "[============[Testing philo]==============]\n"
@@ -115,10 +178,15 @@ if [ "$2" -eq 1 -o "$2" -eq 0 ];then
 	test_philosopher_death "$target" "$1" "5" "599" "200" "200" "4"
 	test_philosopher_death "$target" "$1" "5" "300" "60" "600" "5"
 	test_philosopher_death "$target" "$1" "5" "60" "60" "60" "6"
-	test_philosopher_death "$target" "$1" "200" "60" "60" "60" "6"
-	test_philosopher_death "$target" "$1" "200" "300" "60" "600" "7"
-	test_philosopher_death "$target" "$1" "199" "800" "300" "100" "8"
+	test_philosopher_death "$target" "$1" "200" "60" "60" "60" "7"
+	test_philosopher_death "$target" "$1" "200" "300" "60" "600" "8"
+	test_philosopher_death "$target" "$1" "199" "800" "300" "100" "9"
 
-    # rm -rf "./log_$target"
+	test_philosopher_meals "$target" "$1" "5" "800" "200" "200" "7" "10"
+	test_philosopher_meals "$target" "$1" "3" "800" "200" "200" "7" "11"
+	test_philosopher_meals "$target" "$1" "2" "800" "200" "200" "7" "12"
+	test_philosopher_meals "$target" "$1" "4" "410" "200" "200" "10" "13"
+	test_philosopher_meals "$target" "$1" "2" "410" "200" "200" "10" "14"
+    rm -rf "./log_$target"
 fi
 
