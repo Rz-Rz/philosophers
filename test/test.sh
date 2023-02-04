@@ -26,47 +26,20 @@ error_log ()
     echo "[$1-$2]: $3" >> ./errors_log
 }
 
-test_one ()
-{
-    ("$2/$1" 4 310 200 100 > "./log_$1")&
-    sleep 2
-    pkill $1
-    output=$(grep died -m 1 "./log_$1" | awk '{print $NF}')
-	count=$(grep -c died "./log_$1")
-	after_died=$(sed -n '/died/{n;p;}' "./log_$1")
-	if [ "$output" = "died" ] && [ "$count" = "1" ];then
-		# Extract all lines after the first occurrence of "died"
-		after_died=$(sed -n '/died/{n;p;}' "./log_$1")
-  		# Check if there are any more messages after "died"
-  		if [ -n "$after_died" ]; then
-	 		echo "${red}[-] Test #1 Failed: Simulation does not end after a death${reset}"
-  		else
-	 		echo "${green}[+] Test #1 Succeeded !${reset}"
-  	fi
-    else
-		if [ "$count" = "0" ]; then
-			echo "${red}[-] Test #1 Failed: No death${reset}"
-		fi
-		if [ "$count" > "1" ]; then
-			echo "${red}[-] Test #1 Failed: More than one death${reset}"
-		fi
-        # error_log $1 "Test #1" "Given 4 310 200 100 arguments to $1, a philosopher should die !"
-    fi
-    rm -rf "./log_$1"
-}
-
-test_philosopher () {
+test_philosopher_death () {
+	echo -e "\n"
   local program_name="$1"
   local program_path="$2"
   local program_params=("${@:3:4}")
-  local test_number="$4"
+  local test_number="$7"
   local log_file="./log_$program_name"
-  ("$program_path/$program_name" "${program_params[@]}" > "$log_file")&
-  sleep 2
-  pkill "$program_name"
+  echo -e "${yellow}[+] Testing $program_name with ${program_params[@]}${reset}"
+  (timeout 10 "$program_path/$program_name" "${program_params[@]}" > "$log_file")
 
-  check_death_occurred  "$test_number" "$log_file" || return 1
-  check_simulation_ends "$test_number" "$log_file" || return 1
+  check_death_occurred  "$test_number" "$log_file"
+  check_simulation_ends "$test_number" "$log_file"
+  test_valgrind $1 $2 $3 $4 $5 $6 $7 $test_number
+  test_helgrind $1 $2 $3 $4 $5 $6 $7 $test_number
 
   # rm -rf "$log_file"
 }
@@ -100,6 +73,30 @@ check_simulation_ends () {
   echo "${green}[+] Test #${test_num} Succeeded ! Simulation ends after death${reset}"
 }
 
+test_valgrind () {
+  local parameters="$3 $4 $5 $6 $7"
+  local test_num="$8"
+  timeout 8 valgrind --leak-check=full --errors-for-leak-kinds=all --error-exitcode=1 "$2/$1" $parameters &> "./valgrind_$1.log"
+  if [ $? -eq 0 ]; then
+    echo "${green}[+] Test #${test_num} Valgrind Test Succeeded !${reset}"
+  else
+    echo "${red}[-] Test #${test_num} Valgrind Test Failed: Memory leaks detected${reset}"
+  fi
+  rm -rf "./valgrind_$1.log"
+}
+
+test_helgrind () {
+  local parameters="$3 $4 $5 $6 $7"
+  local test_num="$8"
+  timeout 10 valgrind --tool=helgrind --error-exitcode=1 "$2/$1" $parameters &> "./helgrind_$1.log"
+  if [ $? -eq 0 ]; then
+    echo "${green}[+] Test #${test_num} Helgrind Test Succeeded !${reset}"
+  else
+    echo "${red}[-] Test #${test_num} Helgrind Test Failed: Race conditions detected${reset}"
+  fi
+  rm -rf "./helgrind_$1.log"
+}
+
 if [ "$2" -eq 1 -o "$2" -eq 0 ];then
 
     echo -e "[============[Testing philo]==============]\n"
@@ -112,11 +109,15 @@ if [ "$2" -eq 1 -o "$2" -eq 0 ];then
         exit
     fi
 
-    # test_one $target $1
-	test_philosopher "$target" "$1" "4" "310" "200" "100" "2"
-    # test_two $target $1
-    # test_three $target $1
-    # test_four $target $1
+	test_philosopher_death "$target" "$1" "1" "800" "200" "200" "1"
+	test_philosopher_death "$target" "$1" "4" "310" "200" "100" "2"
+	test_philosopher_death "$target" "$1" "4" "200" "205" "200" "3"
+	test_philosopher_death "$target" "$1" "5" "599" "200" "200" "4"
+	test_philosopher_death "$target" "$1" "5" "300" "60" "600" "5"
+	test_philosopher_death "$target" "$1" "5" "60" "60" "60" "6"
+	test_philosopher_death "$target" "$1" "200" "60" "60" "60" "6"
+	test_philosopher_death "$target" "$1" "200" "300" "60" "600" "7"
+	test_philosopher_death "$target" "$1" "199" "800" "300" "100" "8"
 
     # rm -rf "./log_$target"
 fi
