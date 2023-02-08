@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/04 19:22:49 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:00:55 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static void	eat(t_philo *philo)
 		pthread_mutex_lock(philo->right_fork);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
+		pthread_mutex_lock(&r()->meals);
 		get_time(&philo->last_meal);
+		pthread_mutex_unlock(&r()->meals);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
 		meal_update(philo);
 		pthread_mutex_unlock(philo->left_fork);
@@ -56,7 +58,9 @@ static void	eat(t_philo *philo)
 		pthread_mutex_lock(philo->left_fork);
 		log_msg(philo, "has taken a fork");
 		log_msg(philo, "is eating");
+		pthread_mutex_lock(&r()->meals);
 		get_time(&philo->last_meal);
+		pthread_mutex_unlock(&r()->meals);
 		mod_sleep(r()->time_to_eat, MILLISEC, philo);
 		meal_update(philo);
 		pthread_mutex_unlock(philo->right_fork);

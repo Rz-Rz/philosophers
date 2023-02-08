@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/04 20:34:23 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:09:45 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	death_checker(void)
 		}
 		mutex_ul(&r()->meals, UNLOCK);
 		if (j == r()->philo_nb)
-			r()->all_ate = true;
+			set_all_ate_true();
 		i = -1;
 		while (++i < r()->philo_nb)
 			global_death(i);

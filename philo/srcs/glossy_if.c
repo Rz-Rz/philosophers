@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/04 19:22:39 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:08:18 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ bool	all_philo_ate(void)
 {
 	if (r()->nb_of_time_each_philo_must_eat == -1)
 		return (false);
-	if (r()->all_ate == true)
+	if (is_all_ate_true())
 		return (true);
 	else
 		return (false);

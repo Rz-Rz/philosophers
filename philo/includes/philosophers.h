@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/04 08:32:49 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:07:48 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -118,6 +118,10 @@ bool	init_rules(char **av);
 bool	init_philo(void);
 void	death_checker(void);
 void	finish(void);
+
+//protected_vars.c
+void	set_all_ate_true(void);
+bool	is_all_ate_true(void);
 
 // forks.c
 void	allocate_forks(void);
