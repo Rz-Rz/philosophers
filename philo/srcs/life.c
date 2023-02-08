@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 17:00:55 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:40:05 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,18 @@ bool	check_death(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
-	if (philo->index % 2 == 0)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		log_msg(philo, "has taken a fork");
-		pthread_mutex_lock(philo->right_fork);
-		log_msg(philo, "has taken a fork");
-		log_msg(philo, "is eating");
-		pthread_mutex_lock(&r()->meals);
-		get_time(&philo->last_meal);
-		pthread_mutex_unlock(&r()->meals);
-		mod_sleep(r()->time_to_eat, MILLISEC, philo);
-		meal_update(philo);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->right_fork);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->right_fork);
-		log_msg(philo, "has taken a fork");
-		pthread_mutex_lock(philo->left_fork);
-		log_msg(philo, "has taken a fork");
-		log_msg(philo, "is eating");
-		pthread_mutex_lock(&r()->meals);
-		get_time(&philo->last_meal);
-		pthread_mutex_unlock(&r()->meals);
-		mod_sleep(r()->time_to_eat, MILLISEC, philo);
-		meal_update(philo);
-		pthread_mutex_unlock(philo->right_fork);
-		pthread_mutex_unlock(philo->left_fork);
-	}
+	pthread_mutex_lock(philo->left_fork);
+	log_msg(philo, "has taken a fork");
+	pthread_mutex_lock(philo->right_fork);
+	log_msg(philo, "has taken a fork");
+	log_msg(philo, "is eating");
+	pthread_mutex_lock(&r()->meals);
+	get_time(&philo->last_meal);
+	pthread_mutex_unlock(&r()->meals);
+	mod_sleep(r()->time_to_eat, MILLISEC, philo);
+	meal_update(philo);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
 static void	sleeep(t_philo *philo)
