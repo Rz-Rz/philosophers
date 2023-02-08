@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 20:59:59 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 23:50:20 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	eat(t_philo *philo)
 	pthread_mutex_lock(&r()->meals);
 	get_time(&philo->last_meal);
 	pthread_mutex_unlock(&r()->meals);
-	mod_sleep(r()->time_to_eat, MILLISEC, philo);
+	mod_sleep(r()->time_to_eat);
 	meal_update(philo);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -53,13 +53,13 @@ static void	eat(t_philo *philo)
 static void	sleeep(t_philo *philo)
 {
 	log_msg(philo, "is sleeping");
-	mod_sleep(r()->time_to_sleep, MILLISEC, philo);
+	mod_sleep(r()->time_to_sleep);
 }
 
 static void	think(t_philo *philo)
 {
 	log_msg(philo, "is thinking");
-	usleep(10);
+	usleep(100);
 }
 
 void	*routine(void *arg)
@@ -69,6 +69,8 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (r()->philo_nb == 1 && one_philo(philo))
 		return (NULL);
+	pthread_mutex_lock(&r()->start);
+	pthread_mutex_unlock(&r()->start);
 	pthread_mutex_lock(&r()->meals);
 	get_time(&philo->last_meal);
 	pthread_mutex_unlock(&r()->meals);

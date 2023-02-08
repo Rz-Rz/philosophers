@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 21:03:29 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 23:49:39 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,21 @@ long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)
 	return (-1);
 }
 
-void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo)
+void	mod_sleep(long time_to_sleep)
 {
-	t_time	current_time;
-	t_time	start;
+	/* t_time	current_time; */
+	/* t_time	start; */
 
-	now(&start);
-	if (mode == MILLISEC)
-	{
-		while (true)
-		{
-			if (usleep(250) != 0)
-				generic_err("usleep");
-			if (check_death(philo) == true)
-				return ;
-			now(&current_time);
-			if ((current_time.millisecs - start.millisecs) >= time_to_sleep)
-				break ;
-		}
-	}
+	usleep(time_to_sleep * 1000);
+	/* now(&start); */
+	/* if (mode == MILLISEC) */
+	/* { */
+	/* 	while (true) */
+	/* 	{ */
+	/* 		usleep(1000); */
+	/* 		now(&current_time); */
+	/* 		if ((current_time.millisecs - start.millisecs) >= time_to_sleep) */
+	/* 			break ; */
+	/* 	} */
+	/* } */
 }
