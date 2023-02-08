@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 18:40:05 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 20:59:59 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	sleeep(t_philo *philo)
 static void	think(t_philo *philo)
 {
 	log_msg(philo, "is thinking");
+	usleep(10);
 }
 
 void	*routine(void *arg)
@@ -68,8 +69,6 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (r()->philo_nb == 1 && one_philo(philo))
 		return (NULL);
-	while (get_time_micro() < r()->wait_time.microsecs)
-		usleep(50);
 	pthread_mutex_lock(&r()->meals);
 	get_time(&philo->last_meal);
 	pthread_mutex_unlock(&r()->meals);

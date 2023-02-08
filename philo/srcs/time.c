@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 17:54:21 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 21:03:29 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	mod_sleep(long time_to_sleep, t_time_mode mode, t_philo *philo)
 	{
 		while (true)
 		{
-			if (usleep(10) != 0)
+			if (usleep(250) != 0)
 				generic_err("usleep");
 			if (check_death(philo) == true)
 				return ;

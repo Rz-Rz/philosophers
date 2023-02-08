@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 17:07:48 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 20:05:05 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -94,7 +94,7 @@ typedef struct s_rules
 	pthread_mutex_t	death;
 	pthread_mutex_t	meals;
 	pthread_mutex_t	time;
-	pthread_mutex_t all_ate_mutex;
+	pthread_mutex_t	all_ate_mutex;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;

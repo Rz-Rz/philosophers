@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 17:03:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 17:06:59 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 20:01:44 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,3 @@ bool	is_all_ate_true(void)
 	pthread_mutex_unlock(&r()->meals);
 	return (ret);
 }
-
-
-

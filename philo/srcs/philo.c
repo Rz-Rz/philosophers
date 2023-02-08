@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 17:09:45 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/08 20:47:05 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ void	death_checker(void)
 
 	while (!r()->all_ate && !did_someone_die())
 	{
-		usleep(50);
+		usleep(500);
 		i = 0;
 		j = 0;
 		mutex_ul(&r()->meals, LOCK);
 		while (i < r()->philo_nb)
 		{
-			usleep(50);
 			if (did_philo_n_eat_enough(i))
 				j++;
 			i++;
