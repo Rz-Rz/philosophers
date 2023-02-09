@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 13:33:43 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:57:34 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	mod_sleep(long time_to_sleep)
 	volatile t_time	current_time;
 	volatile t_time	start;
 
-	/* usleep(time_to_sleep * 1000); */
 	now(&start);
 	while (true)
 	{
