@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 23:50:20 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 12:36:32 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (r()->philo_nb == 1 && one_philo(philo))
 		return (NULL);
-	pthread_mutex_lock(&r()->start);
-	pthread_mutex_unlock(&r()->start);
 	pthread_mutex_lock(&r()->meals);
 	get_time(&philo->last_meal);
 	pthread_mutex_unlock(&r()->meals);

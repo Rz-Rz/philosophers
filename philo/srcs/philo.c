@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/08 23:43:14 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 13:23:28 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	finish(void)
 	pthread_mutex_destroy(&r()->death);
 	pthread_mutex_destroy(&r()->meals);
 	pthread_mutex_destroy(&r()->time);
+	pthread_mutex_destroy(&r()->all_ate_mutex);
 	free(r()->forks);
 	free(r()->philo);
 }
