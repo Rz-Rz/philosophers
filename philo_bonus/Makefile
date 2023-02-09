@@ -6,7 +6,7 @@
 #    By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/13 18:38:45 by kdhrif            #+#    #+#              #
-#    Updated: 2023/02/03 16:09:47 by kdhrif           ###   ########.fr        #
+#    Updated: 2023/02/09 17:30:51 by kdhrif           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ BONUS_OBJS_DIR = bonus_objs
 BONUS	:= $(shell find bonus/*.c -exec basename \ {} \;)
 BONUS_OBJS = ${patsubst %.c,${BONUS_OBJS_DIR}/%.o,${BONUS}}
 CC       = gcc
-CFLAGS   = -g3 -Wall -Wextra -Werror
+CFLAGS   = -Wall -Wextra -Werror
 HEADERS  = includes/philosophers.h
 BONUS_HEADERS = includes/philosophers_bonus.h
 

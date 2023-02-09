@@ -6,13 +6,13 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/01 18:15:22 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 17:23:22 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
 
-void	get_time(t_time *time)
+void	get_time(volatile t_time *time)
 {
 	struct timeval		tv;
 
@@ -26,20 +26,20 @@ void	get_time(t_time *time)
 	time->microsecs = (tv.tv_sec * MICROSECONDS_IN_A_SECOND) + tv.tv_usec;
 }
 
-void	now(t_time *time)
+void	now(volatile t_time *time)
 {
 	get_time(time);
 }
 
 long	get_time_ms(void)
 {
-	t_time	time;
+	volatile t_time	time;
 
 	get_time(&time);
 	return (time.millisecs);
 }
 
-long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)
+long	elapsed_time(t_time *start, volatile t_time *current, t_time_mode mode)
 {
 	long	elapsed;
 
@@ -58,16 +58,13 @@ long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)
 
 void	mod_sleep(long time_to_sleep)
 {
-	t_time	current_time;
-	t_time	start;
+	volatile t_time	current_time;
+	volatile t_time	start;
 
 	now(&start);
 	while (true)
 	{
-		if (someone_died())
-			break ;
-		if (usleep(CLOCK_TICK) != 0)
-			generic_err("usleep");
+		usleep(250);
 		now(&current_time);
 		if ((current_time.millisecs - start.millisecs) >= time_to_sleep)
 			break ;

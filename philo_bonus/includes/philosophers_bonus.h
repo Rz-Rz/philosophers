@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 12:20:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/03 16:08:49 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 17:23:00 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ typedef struct s_rules
 	bool			all_ate;
 	sem_t			*forks;
 	sem_t			*print;
+	sem_t			*stop;
 	sem_t			*death;
 	sem_t			*meals;
 	sem_t			*time;
-	sem_t			*stop;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
@@ -114,6 +114,7 @@ t_rules	*r(void);
 
 //semaphore.c
 bool	init_semaphore(void);
+bool	sema_init(sem_t *sem, char *name, int value);
 
 //philo.c
 bool	init_all(char **av);
@@ -170,9 +171,9 @@ void	allocate_philosophers(void);
 
 // time.c
 void	mod_sleep(long time_to_sleep);
-long	elapsed_time(t_time *start, t_time *current, t_time_mode mode);
-void	now(t_time *time);
-void	get_time(t_time *time);
+long	elapsed_time(t_time *start, volatile t_time *current, t_time_mode mode);
+void	now(volatile t_time *time);
+void	get_time(volatile t_time *time);
 long	get_time_ms(void);
 
 //parsing.c

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/02 14:56:15 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 17:17:47 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,22 @@ void	*monitoring(void *arg)
 		}
 		if (did_philo_eat_enough(philo))
 			return (NULL);
-		usleep(50);
+		usleep(900);
 	}
 	return (NULL);
 }
 
 static void	eat(t_philo *philo)
 {
-	if (philo->index % 2 == 0)
-	{
-		sem_wait(r()->forks);
-		log_msg(philo, "has taken a fork");
-		sem_wait(r()->forks);
-		log_msg(philo, "has taken a fork");
-		log_msg(philo, "is eating");
-		get_eat_time(philo);
-		mod_sleep(r()->time_to_eat);
-		sem_post(r()->forks);
-		sem_post(r()->forks);
-	}
-	else
-	{
-		sem_wait(r()->forks);
-		log_msg(philo, "has taken a fork");
-		sem_wait(r()->forks);
-		log_msg(philo, "has taken a fork");
-		log_msg(philo, "is eating");
-		get_eat_time(philo);
-		mod_sleep(r()->time_to_eat);
-		sem_post(r()->forks);
-		sem_post(r()->forks);
-	}
+	sem_wait(r()->forks);
+	log_msg(philo, "has taken a fork");
+	sem_wait(r()->forks);
+	log_msg(philo, "has taken a fork");
+	log_msg(philo, "is eating");
+	get_eat_time(philo);
+	mod_sleep(r()->time_to_eat);
+	sem_post(r()->forks);
+	sem_post(r()->forks);
 }
 
 static void	sleeep(t_philo *philo)
@@ -79,6 +64,8 @@ static void	sleeep(t_philo *philo)
 static void	think(t_philo *philo)
 {
 	log_msg(philo, "is thinking");
+	if (r()->philo_nb % 2 != 0)
+		usleep((r()->time_to_eat + r()->time_to_sleep) / 2);
 }
 
 int	routine(t_philo *arg)
@@ -91,17 +78,16 @@ int	routine(t_philo *arg)
 		exit(0);
 	while (r()->stop->__align == 0)
 		usleep(50);
+	get_time(&philo->last_meal);
 	if (philo->index % 2 != 0)
-		usleep(5000);
+		usleep(10000);
 	pthread_create(&monitor, NULL, monitoring, arg);
 	while (!someone_died() && !did_philo_eat_enough(philo))
 	{
-		think(philo);
 		eat(philo);
-		if (someone_died())
-			break ;
 		meal_update(philo);
 		sleeep(philo);
+		think(philo);
 	}
 	pthread_join(monitor, NULL);
 	if (!philo->check_vitals)

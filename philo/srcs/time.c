@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 12:59:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 14:57:34 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 16:30:44 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ long	get_time_ms(void)
 	return (time.millisecs);
 }
 
-long	elapsed_time(t_time *start, t_time *current, t_time_mode mode)
+long	elapsed_time(t_time *start, volatile t_time *current, t_time_mode mode)
 {
 	long	elapsed;
 
