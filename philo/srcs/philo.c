@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 07:46:48 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 13:23:28 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 18:32:33 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	main(int ac, char **av)
 bool	init_all(char **av)
 {
 	if (init_rules(av) == false)
-		return (generic_err("Wrong arguments !"));
+		return (false);
 	if (init_mutex() == false)
-		return (generic_err("Mutex init failed !"));
+		return (false);
 	if (init_philo() == false)
-		return (generic_err("Philo init failed !"));
+		return (false);
 	if (init_threads() == false)
-		return (generic_err("Thread init failed !"));
+		return (false);
 	death_checker();
 	finish();
 	return (true);

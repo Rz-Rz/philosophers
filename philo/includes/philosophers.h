@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 18:42:53 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 16:31:05 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 19:02:29 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILOSOPHERS_H
@@ -24,13 +24,13 @@
 # include <stdatomic.h>
 
 // Conversion arguments
-typedef enum t
+typedef enum e_s
 {
 	MICROSEC,
 	MILLISEC
 }	t_time_mode;
 
-typedef enum e
+typedef enum e_e
 {
 	CREATE,
 	DESTROY,
@@ -38,7 +38,7 @@ typedef enum e
 	LOCK
 }	t_mutex_action;
 
-typedef enum b
+typedef enum e_xy
 {
 	INIT,
 	JOIN

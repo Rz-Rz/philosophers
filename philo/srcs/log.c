@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:54:32 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 16:30:19 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/09 18:40:32 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	log_msg(t_philo *philo, char *msg)
 {
 	volatile t_time			current_time;
-	long			elapsed;
+	long					elapsed;
 
 	now(&current_time);
 	elapsed = elapsed_time(&r()->start_time, &current_time, MILLISEC);
