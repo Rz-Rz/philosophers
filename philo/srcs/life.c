@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 18:40:16 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/10 14:21:32 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static void	think(t_philo *philo)
 {
 	log_msg(philo, "is thinking");
 	if (r()->philo_nb % 2 != 0)
-		usleep((r()->time_to_eat
-				+ r()->time_to_sleep) * MICROSECONDS_IN_A_MILLISECOND);
+		usleep((r()->time_to_eat) * MICROSECONDS_IN_A_MILLISECOND);
 }
 
 void	*routine(void *arg)
