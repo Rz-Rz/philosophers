@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/10 13:32:06 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/10 15:04:33 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	*monitoring(void *arg)
 
 static void	eat(t_philo *philo)
 {
-	/* if (r()->philo_nb % 2 != 0 && !time_to_eat_odd(philo)) */
-	/* 	usleep(250); */
 	sem_wait(r()->forks);
 	log_msg(philo, "has taken a fork");
 	sem_wait(r()->forks);
