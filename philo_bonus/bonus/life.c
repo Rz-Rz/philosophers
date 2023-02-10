@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/09 17:17:47 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/10 13:32:06 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	*monitoring(void *arg)
 
 static void	eat(t_philo *philo)
 {
+	/* if (r()->philo_nb % 2 != 0 && !time_to_eat_odd(philo)) */
+	/* 	usleep(250); */
 	sem_wait(r()->forks);
 	log_msg(philo, "has taken a fork");
 	sem_wait(r()->forks);
@@ -65,7 +67,7 @@ static void	think(t_philo *philo)
 {
 	log_msg(philo, "is thinking");
 	if (r()->philo_nb % 2 != 0)
-		usleep((r()->time_to_eat + r()->time_to_sleep) / 2);
+		usleep((r()->time_to_eat) * 1000);
 }
 
 int	routine(t_philo *arg)

@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 14:35:34 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/02 15:04:20 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/10 13:22:25 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,16 @@ bool	is_alive(t_philo *philo)
 	}
 	sem_post(r()->death);
 	return (false);
+}
+
+bool	time_to_eat_odd(t_philo *philo)
+{
+	volatile t_time	current_time;
+
+	now(&current_time);
+	if (elapsed_time(&philo->last_meal, &current_time, MILLISEC)
+		>= r()->time_to_eat * 2)
+		return (true);
+	else
+		return (false);
 }
