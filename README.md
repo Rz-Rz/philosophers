@@ -56,6 +56,11 @@ This will allow us to track exactly what happens in our philos. Here's an exampl
 <img src="https://user-images.githubusercontent.com/52322219/218322685-d32c2865-2373-4ae4-b072-5e99740fd103.png" width="560px" height="470px">
 
 ### Functions we can use (otherwise it's too easy)
+memset, printf, malloc, free, write,
+usleep, gettimeofday, pthread_create,
+pthread_detach, pthread_join, pthread_mutex_init,
+pthread_mutex_destroy, pthread_mutex_lock,
+pthread_mutex_unlock
 
 ## Solving the Dilemma with Threads and Mutexes.
 
@@ -139,3 +144,43 @@ END FUNCTION
 
 #### Building an accurate sleep function
 
+usleep() is a system call that suspends the execution of the calling thread for a specified number of microseconds. However, the actual amount of time that the thread will be suspended can vary depending on various factors, such as the operating system scheduler, system load, and other processes running on the system. This can result in the thread being resumed much later than the specified number of microseconds, leading to inaccurate timing.
+
+To achieve more precise timing, it is common to use a combination of gettimeofday and a busy-wait loop. gettimeofday returns the current time in seconds and microseconds, which can be used to determine the elapsed time between two points in time. The busy-wait loop continuously checks the current time using gettimeofday and compares it to the desired end time. When the desired time has passed, the loop can be exited and the next task can be performed. This approach ensures that the correct amount of time has elapsed, even if the usleep function is imprecise.
+
+It's important to note that busy-waiting can consume a lot of CPU resources and is not an ideal solution for timing-sensitive applications. In order to lessen the usage of system resources we have to make the wait interval as long as possible, while still ensuring that the condition is met in a reasonable amount of time. The longer the wait interval, the less frequently the system will be polled.
+
+Here's an example of a modified sleep function:
+```
+FUNCTION mod_sleep(time_to_sleep: LONG):
+    DECLARE current_time: t_time
+    DECLARE start: t_time
+
+    CALL now(start)
+    WHILE true:
+        CALL usleep(SECRET_NUMBER)
+        CALL now(current_time)
+        IF current_time.millisecs - start.millisecs >= time_to_sleep
+            BREAK
+    END WHILE
+END FUNCTION
+```
+
+### General Tips
+
+**Managing death, print, time and meals count**  
+Depending on your implementation, you might want to use different mutexes to perform actions that are unrelated to each others. Here are some ideas: A mutex for all the death mechanism of your program. A mutex for the meals counters. A mutex for the global meal values (if all philo ate for example). A mutex for the time values. And/or a mutex to print the logs. This will allow for greater parallelization than using one mutex for everything.
+
+**Lessening CPU usage**  
+Depending on your implementation, you might want to use one busy-waiting loop to monitor the state of all your philos each milliseconds. The 200 410 200 200 test requires you to be careful of CPU usage.
+
+**Special case of odd numbers**  
+Depending on your implementation, you might want to use some mechanism to ensure that philos don't steal the forks of philos that have not yet eaten. The 3 550 200 80 test can highlight this specific behavior.
+
+**Helgrind error: lock order "0x4AAB040 before 0x4AAB068" violated**  
+Here's an amazing graph from librity that will let you figure out what to fix:  
+<img src="https://github.com/librity/ft_philosophers/blob/master/.github/potential_deadlock.png" width="600px" height="300px">
+<img src="https://github.com/librity/ft_philosophers/blob/master/.github/impossible_deadlock.png" width="600px" height="300px">
+
+### Testers
+You might consider using my [Thales Tester](https://github.com/Rz-Rz/thales_tester) in order to test your program. Please be aware that it will not work if you have customized your output with colors. 
