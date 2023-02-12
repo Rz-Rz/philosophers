@@ -6,7 +6,7 @@
 /*   By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:26:28 by kdhrif            #+#    #+#             */
-/*   Updated: 2023/02/10 15:04:33 by kdhrif           ###   ########.fr       */
+/*   Updated: 2023/02/12 13:12:32 by kdhrif           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	routine(t_philo *arg)
 		think(philo);
 	}
 	pthread_join(monitor, NULL);
+	free(r()->philo);
 	if (!philo->check_vitals)
 		exit(-1);
 	exit(0);

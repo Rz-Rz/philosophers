@@ -6,7 +6,7 @@
 #    By: kdhrif <kdhrif@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/13 18:38:45 by kdhrif            #+#    #+#              #
-#    Updated: 2023/02/09 12:49:59 by kdhrif           ###   ########.fr        #
+#    Updated: 2023/02/10 17:35:07 by kdhrif           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ OBJS_DIR = objs
 SRCS	:= $(shell find srcs/*.c -exec basename \ {} \;)
 OBJS     = ${patsubst %.c,${OBJS_DIR}/%.o,${SRCS}}
 CC       = cc
-# CFLAGS   = -O3 -Wall -Wextra -Werror
 CFLAGS   =  -Wall -Wextra -Werror
 HEADERS  = includes/philosophers.h
 
