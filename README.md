@@ -178,12 +178,12 @@ Depending on your implementation, you might want to use one busy-waiting loop to
 Depending on your implementation, you might want to use some mechanism to ensure that philos don't steal the forks of philos that have not yet eaten. The 3 550 200 80 test can highlight this specific behavior.
 The solution that I found:
 ```
-static void	think(t_philo *philo)
-{
-	log_msg(philo, "is thinking");
-	if (r()->philo_nb % 2 != 0)
-		usleep((r()->time_to_eat) * MICROSECONDS_IN_A_MILLISECOND);
-}
+FUNCTION THINK(philo: POINTER TO t_philo)
+    CALL LOG_MSG(philo, "is thinking")
+    IF (R().philo_nb MOD 2 != 0) THEN
+        CALL USLEEP((R().time_to_eat) * MICROSECONDS_IN_A_MILLISECOND)
+    END IF
+END FUNCTION
 ```
 
 **Helgrind error: lock order "0x4AAB040 before 0x4AAB068" violated**  
