@@ -176,6 +176,15 @@ Depending on your implementation, you might want to use one busy-waiting loop to
 
 **Special case of odd numbers**  
 Depending on your implementation, you might want to use some mechanism to ensure that philos don't steal the forks of philos that have not yet eaten. The 3 550 200 80 test can highlight this specific behavior.
+The solution that I found:
+```
+static void	think(t_philo *philo)
+{
+	log_msg(philo, "is thinking");
+	if (r()->philo_nb % 2 != 0)
+		usleep((r()->time_to_eat) * MICROSECONDS_IN_A_MILLISECOND);
+}
+```
 
 **Helgrind error: lock order "0x4AAB040 before 0x4AAB068" violated**  
 Here's an amazing graph from librity that will let you figure out what to fix:  
