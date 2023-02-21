@@ -180,8 +180,8 @@ The solution that I found:
 ```
 FUNCTION THINK(philo: POINTER TO t_philo)
     CALL LOG_MSG(philo, "is thinking")
-    IF (R().philo_nb MOD 2 != 0) THEN
-        CALL USLEEP((R().time_to_eat) * MICROSECONDS_IN_A_MILLISECOND)
+    IF (philo.philo_nb MOD 2 != 0) THEN
+        CALL USLEEP((philo.time_to_eat) * MICROSECONDS_IN_A_MILLISECOND)
     END IF
 END FUNCTION
 ```
