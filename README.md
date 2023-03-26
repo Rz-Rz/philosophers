@@ -191,5 +191,9 @@ Here's an amazing graph from librity that will let you figure out what to fix:
 <img src="https://github.com/librity/ft_philosophers/blob/master/.github/potential_deadlock.png" width="600px" height="300px">
 <img src="https://github.com/librity/ft_philosophers/blob/master/.github/impossible_deadlock.png" width="600px" height="300px">
 
+### Bonus
+Here's a small drawing to get an idea of how the bonus implementation works.
+https://excalidraw.com/#json=Yf_Pmr5KOwCyJUB0cbqX3,p8iHTGm3qU3e3h49Fp05yA
+
 ### Testers
 You might consider using my [Thales Tester](https://github.com/Rz-Rz/thales_tester) in order to test your program. Please be aware that it will not work if you have customized your output with colors. 
